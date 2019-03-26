@@ -3,31 +3,35 @@
 
 @definterface/title[dc<%> ()]{
 
-A @racket[dc<%>] object is a drawing context for drawing graphics and
+@;{A @racket[dc<%>] object is a drawing context for drawing graphics and
  text.  It represents output devices in a generic way; e.g., a canvas
- has a drawing context, as does a printer.
+ has a drawing context, as does a printer.}
+  一个@racket[dc<%>]对象是用于绘制图形和文本的绘图上下文。它以通用的方式表示输出设备；例如，一个画布有一个绘图上下文，一个打印机都也一样。
 
 
 @defmethod[(cache-font-metrics-key)
            exact-integer?]{
 
-Returns an integer that, if not @racket[0], corresponds to a
+@;{Returns an integer that, if not @racket[0], corresponds to a
 particular kind of device and scaling factor, such that text-extent
 information (from @method[dc<%> get-text-extent], @method[dc<%>
 get-char-height], etc.) is the same. The key is valid across all
-@racket[dc<%>] instances, even among different classes.
+@racket[dc<%>] instances, even among different classes.}
+  返回一个整数，如果不是@racket[0]，则对应于一个特定类型的设备和比例因子，以便文本范围信息（来自 @method[dc<%> get-text-extent]、 @method[dc<%>
+get-char-height]等）相同。该键在所有@racket[dc<%>]实例中都有效，即使在不同的类中也是如此。
 
-A @racket[0] result indicates that the current configuration of
+@;{A @racket[0] result indicates that the current configuration of
 @this-obj[] does not fit into a common category, and so no key is
 available for caching text-extent information.}
+ 一个@racket[0]结果表示@this-obj[]的当前配置不属于公共类别，因此没有可用于缓存文本扩展数据块信息的密钥。}
 
 
 @defmethod[(clear)
            void?]{
 
-Clears the drawing region (fills it with the current background color,
-as determined by @method[dc<%> get-background]). See also @method[dc<%> erase].
-
+@;{Clears the drawing region (fills it with the current background color,
+as determined by @method[dc<%> get-background]). See also @method[dc<%> erase].}
+清除绘图区域（使用由@method[dc<%> get-background]确定的当前背景色填充）。也可以参见《 @method[dc<%> erase]》。
 }
 
 @defmethod[(copy [x real?]
@@ -38,12 +42,14 @@ as determined by @method[dc<%> get-background]). See also @method[dc<%> erase].
                  [y2 real?])
            void?]{
 
-Copies the rectangle defined by @racket[x], @racket[y],
+@;{Copies the rectangle defined by @racket[x], @racket[y],
 @racket[width], and @racket[height] of the drawing context to the same
 drawing context at the position specified by @racket[x2] and
-@racket[y2]. The source and destination regions can overlap.
+@racket[y2]. The source and destination regions can overlap.}
+  将由绘图上下文的@racket[x]、@racket[y]、
+@racket[width]和@racket[height]定义的矩形区域复制到由 @racket[x2]和@racket[y2]指定的位置处的同一图形上下文。源区域和目标区域可以重叠。
 
-@history[#:changed "1.12" @elem{Allow overlapping source and destination.}]}
+@history[#:changed "1.12" @elem{@;{Allow overlapping source and destination.}允许源和目标重叠。}]}
 
 
 @defmethod[(draw-arc [x real?]
@@ -54,26 +60,30 @@ drawing context at the position specified by @racket[x2] and
                      [end-radians real?])
            void?]{
 
-Draws a counter-clockwise circular arc, a part of the ellipse
+@;{Draws a counter-clockwise circular arc, a part of the ellipse
  inscribed in the rectangle specified by @racket[x] (left), @racket[y]
  (top), @racket[width], and @racket[height]. The arc starts at the angle
  specified by @racket[start-radians] (@racket[0] is three o'clock and
  half-pi is twelve o'clock) and continues counter-clockwise to
  @racket[end-radians]. If @racket[start-radians] and @racket[end-radians] are
- the same, a full ellipse is drawn.
+ the same, a full ellipse is drawn.}
+  绘制一个逆时针的圆弧，椭圆的一部分，该椭圆内接在由 @racket[x] （左（left））、@racket[y]
+ （顶（top））、@racket[width]和@racket[height]指定的矩形中。圆弧从@racket[start-radians] 指定的角度开始（@racket[0]是3点钟，半圆周率是12点钟），然后逆时针继续到@racket[end-radians]。如果 @racket[start-radians]和@racket[end-radians]相同，则绘制一个完整的椭圆。
 
-The current pen is used for the arc. If the current brush is not
+@;{The current pen is used for the arc. If the current brush is not
  transparent, it is used to fill the wedge bounded by the arc plus
  lines (not drawn) extending to the center of the inscribed ellipse.
  If both the pen and brush are non-transparent, the wedge is filled
- with the brush before the arc is drawn with the pen. 
+ with the brush before the arc is drawn with the pen.}
+  当前画笔用于圆弧。如果当前画笔不是透明的，则用于填充由圆弧加上延伸到内接椭圆中心的线（未绘制）所限定的楔体。如果笔和画笔都是不透明的，则在用笔绘制圆弧之前，楔块中会用画笔填充。
 
-The wedge and arc meet so that no space is left between them, but the
+@;{The wedge and arc meet so that no space is left between them, but the
  precise overlap between the wedge and arc is platform- and
  size-specific.  Typically, the regions drawn by the brush and pen
  overlap.  In unsmoothed or aligned mode, the path for the outline is
  adjusted by shrinking the bounding ellipse width and height by, after scaling, one
- drawing unit divided by the alignment scale.
+ drawing unit divided by the alignment scale.}
+  楔形和弧形相交，因此它们之间没有空间，但是楔形和弧形之间的精确重叠是平台和尺寸特定的。通常，画笔和笔绘制的区域重叠。在非平滑或对齐模式下，通过缩小边界椭圆的宽度和高度来调整轮廓路径，缩放后，用一个绘图单位除以对齐比例。
 
 
 @|DrawSizeNote|

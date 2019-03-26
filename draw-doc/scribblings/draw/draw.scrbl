@@ -1,15 +1,18 @@
 #lang scribble/doc
 @(require "common.rkt")
 
-@title{The Racket Drawing Toolkit}
+@;{@title{The Racket Drawing Toolkit}}
+@title{Racket绘图工具包}
 
 @author["Matthew Flatt" "Robert Bruce Findler" "John Clements"]
 
 @declare-exporting[racket/draw]
 
-@defmodule*/no-declare[(racket/draw)]{The
+@;{@defmodule*/no-declare[(racket/draw)]{The
 @racketmodname[racket/draw] library provides all of the class,
-interface, and procedure bindings defined in this manual.}
+interface, and procedure bindings defined in this manual.}}
+@defmodule*/no-declare[(racket/draw)]{The
+@racketmodname[racket/draw]库提供了本手册中定义的所有类、接口和过程绑定。}
 
 @table-of-contents[]
 
