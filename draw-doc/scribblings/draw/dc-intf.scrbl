@@ -99,61 +99,73 @@ drawing context at the position specified by @racket[x2] and
                         [mask (or/c (is-a?/c bitmap%) #f) #f])
            boolean?]{
 
-Displays the @racket[source] bitmap. The @racket[dest-x] and @racket[dest-y] arguments
- are in DC coordinates.
+@;{Displays the @racket[source] bitmap. The @racket[dest-x] and @racket[dest-y] arguments
+ are in DC coordinates.}
+  显示@racket[source]位图。@racket[dest-x]和@racket[dest-y]参数采用DC坐标。
 
-For color bitmaps, the drawing style and color arguments are
+@;{For color bitmaps, the drawing style and color arguments are
  ignored. For monochrome bitmaps, @method[dc<%> draw-bitmap] uses the
  style and color arguments in the same way that a brush uses its style
  and color settings to draw a monochrome stipple (see @racket[brush%]
- for more information).
+ for more information).}
+  对于颜色位图，将忽略绘图样式和颜色参数。对于单色位图，@method[dc<%> draw-bitmap]使用样式和颜色参数的方式与画笔使用其样式和颜色设置绘制单色点画的方式相同（有关详细信息，请参见@racket[brush%]。
 
-If a @racket[mask] bitmap is supplied, it must have the same width and height
+@;{If a @racket[mask] bitmap is supplied, it must have the same width and height
  as @racket[source], and its @method[bitmap% ok?] must return
  true, otherwise @|MismatchExn|. The @racket[source] bitmap and @racket[mask]
  bitmap can be the same object, but if the drawing context is a
  @racket[bitmap-dc%] object, both bitmaps must be distinct from the
- destination bitmap, otherwise @|MismatchExn|.
+ destination bitmap, otherwise @|MismatchExn|.}
+  如果提供了一个@racket[mask]位图，则其宽度和高度必须与@racket[source]及其@method[bitmap% ok?]必须返回true，否则@|MismatchExn|。@racket[source]位图和@racket[mask]位图可以是同一个对象，但如果绘图上下文是一个@racket[bitmap-dc%]对象，则两个位图必须与目标位图不同，否则@|MismatchExn|。
 
-The effect of @racket[mask] on drawing depends on the type of the
-@racket[mask] bitmap:
-@;
+@;{The effect of @racket[mask] on drawing depends on the type of the
+@racket[mask] bitmap:}
+  @racket[mask]对绘图的影响取决于@racket[mask]位图的类型：
+
 @itemlist[
 
- @item{If the @racket[mask] bitmap is monochrome, drawing occurs in
+ @item{@;{If the @racket[mask] bitmap is monochrome, drawing occurs in
        the target @racket[dc<%>] only where the mask bitmap contains
        black pixels (independent of @racket[style], which controls how
        the white pixels of a monochrome @racket[source] are handled).}
+   如果@racket[mask]位图是单色的，则仅当遮罩位图包含黑色像素（与@racket[style]无关，后者控制如何处理单色@racket[source]的白色像素）时，才会在目标@racket[dc<%>]中绘制。}
 
- @item{If the @racket[mask] bitmap is color with an alpha channel, its
+ @item{@;{If the @racket[mask] bitmap is color with an alpha channel, its
        alpha channel is used as the mask for drawing @racket[source],
        and its color channels are ignored.}
+   如果@racket[mask]位图是带alpha通道的颜色，则其alpha通道将用作绘制@racket[source]的遮罩，并且其颜色通道将被忽略。}
 
- @item{If the @racket[mask] bitmap is color without an alpha channel,
+ @item{@;{If the @racket[mask] bitmap is color without an alpha channel,
        the color components of a given pixel are averaged to arrive at
        an inverse alpha value for the pixel. In particular, if the
        @racket[mask] bitmap is grayscale, then the blackness of each
        mask pixel controls the opacity of the drawn pixel (i.e., the
        mask acts as an inverted alpha channel).}
+   如果@racket[mask]位图是没有alpha通道的颜色，则对给定像素的颜色分量进行平均，以获得该像素的逆alpha值。特别是，如果@racket[mask]位图为灰度，则每个遮罩像素的黑度控制绘制像素的不透明度（即，遮罩充当一个倒置的alpha通道）。}
 
 ]
 
-The current brush, current pen, and current text for the DC have no
+@;{The current brush, current pen, and current text for the DC have no
  effect on how the bitmap is drawn, but the bitmap is scaled if the DC
  has a scale, and the DC's alpha setting determines the opacity of the
  drawn pixels (in combination with an alpha channel of @racket[source],
  any given @racket[mask], and the alpha component of @racket[color] 
- when @racket[source] is monochrome).
+ when @racket[source] is monochrome).}
+  DC的当前画笔、当前笔和当前文本对位图的绘制方式没有影响，但如果DC具有比例，则位图将被缩放，并且DC的alpha设置确定绘制像素的不透明度（结合@racket[source]的alpha通道、任何给定的@racket[mask]以及当@racket[source]为单色时@racket[color]的alpha分量）。
 
-For @racket[post-script-dc%] and @racket[pdf-dc%] output, opacity from
+@;{For @racket[post-script-dc%] and @racket[pdf-dc%] output, opacity from
  an alpha channel in @racket[source], from @racket[mask], or from 
- @racket[color] is rounded to full transparency or opacity.
+ @racket[color] is rounded to full transparency or opacity.}
+  对于@racket[post-script-dc%]和 @racket[pdf-dc%]输出，来自@racket[source]中的alpha通道、来自@racket[mask]或来自@racket[color]的不透明度四舍五入为完全透明或不透明。
 
-The result is @racket[#t] if the bitmap is successfully drawn,
+@;{The result is @racket[#t] if the bitmap is successfully drawn,
  @racket[#f] otherwise (possibly because the bitmap's @method[bitmap%
- ok?] method returns @racket[#f]).
+ ok?] method returns @racket[#f]).}
+  如果位图绘制成功，结果是@racket[#t]，否则是@racket[#f]（可能是因为位图的@method[bitmap%
+ ok?]方法返回@racket[#f]）。
 
-See also @method[dc<%> draw-bitmap-section].
+@;{See also @method[dc<%> draw-bitmap-section].}
+  也可参见@method[dc<%> draw-bitmap-section]。
 
 @|DrawSizeNote|
 
@@ -171,14 +183,17 @@ See also @method[dc<%> draw-bitmap-section].
                                 [mask (or/c (is-a?/c bitmap%) #f) #f])
            boolean?]{
 
-Displays part of a bitmap.
+@;{Displays part of a bitmap.}
+  显示位图的一部分。
 
-The @racket[src-x], @racket[src-y], @racket[src-width], and
+@;{The @racket[src-x], @racket[src-y], @racket[src-width], and
  @racket[src-height] arguments specify a rectangle in the source
- bitmap to copy into this drawing context.
+ bitmap to copy into this drawing context.}
+  @racket[src-x]、@racket[src-y]、@racket[src-width]和@racket[src-height]参数指定源位图中要复制到此绘图上下文的矩形。
 
-See @method[dc<%> draw-bitmap] for information about @racket[dest-x],
- @racket[dest-y], @racket[style], @racket[color], and @racket[mask].
+@;{See @method[dc<%> draw-bitmap] for information about @racket[dest-x],
+ @racket[dest-y], @racket[style], @racket[color], and @racket[mask].}
+  有关@racket[dest-x]、@racket[dest-y]、 @racket[style]、@racket[color]和@racket[mask]的信息，请参见@method[dc<%> draw-bitmap]。
 
 }
 
@@ -188,19 +203,21 @@ See @method[dc<%> draw-bitmap] for information about @racket[dest-x],
                          [height (and/c real? (not/c negative?))])
            void?]{
 
-Draws an ellipse contained in a rectangle with the given top-left
+@;{Draws an ellipse contained in a rectangle with the given top-left
  corner and size. The current pen is used for the outline, and the
  current brush is used for filling the shape. If both the pen and
  brush are non-transparent, the ellipse is filled with the brush
- before the outline is drawn with the pen.
+ before the outline is drawn with the pen.}
+  绘制包含在具有给定左上角和大小的矩形中的椭圆。当前笔用于轮廓，当前画笔用于填充形状。如果笔和画笔都是不透明的，则在用笔绘制轮廓之前，椭圆将用画笔填充。
 
-Brush filling and pen outline meet so that no space is left between
+@;{Brush filling and pen outline meet so that no space is left between
  them, but the precise overlap between the filling and outline is
  platform- and size-specific.  Thus, the regions drawn by the brush
  and pen may partially overlap. In unsmoothed or aligned mode, the
  path for the outline is adjusted by, after scaling, shrinking the
  ellipse width and height by one drawing unit divided by the
- @tech{alignment scale}.
+ @tech{alignment scale}.}
+  画笔填充和笔轮廓相吻合，这样它们之间就没有空间了，但是填充和轮廓之间的精确重叠是平台和尺寸特定的。因此，画笔和笔绘制的区域可能部分重叠。在非平滑或对齐模式下，轮廓的路径在缩放后通过一个绘图单位除以@tech{对齐比例}来调整椭圆的宽度和高度。
 
 @|DrawSizeNote|
 
@@ -212,16 +229,19 @@ Brush filling and pen outline meet so that no space is left between
                       [y2 real?])
            void?]{
 
-Draws a line from one point to another.  The current pen is used for
- drawing the line.
+@;{Draws a line from one point to another.  The current pen is used for
+ drawing the line.}
+ 从一点到另一点画一条线。当前笔用于绘制线条。
 
-In unsmoothed mode, the points correspond to pixels, and the line
+@;{In unsmoothed mode, the points correspond to pixels, and the line
  covers both the start and end points. For a pen whose scaled width is
  larger than @racket[1], the line is drawn centered over the start and
- end points.
+ end points.}
+  在非平滑模式下，点对应于像素，线条覆盖起点和终点。对于一个宽度大于@racket[1]的笔，画的线是以起点和终点为中心的。
 
-See also @method[dc<%> set-smoothing] for information on the
-@racket['aligned] smoothing mode.
+@;{See also @method[dc<%> set-smoothing] for information on the
+@racket['aligned] smoothing mode.}
+  另请参见@method[dc<%> set-smoothing]了解有关@racket['aligned]平滑模式的信息。
 
 @|DrawSizeNote|
 
@@ -233,14 +253,16 @@ See also @method[dc<%> set-smoothing] for information on the
                        [yoffset real? 0])
            void?]{
 
-Draws lines using a list @racket[points] of points, adding @racket[xoffset]
+@;{Draws lines using a list @racket[points] of points, adding @racket[xoffset]
  and @racket[yoffset] to each point. A pair is treated as a point where the
  @racket[car] of the pair is the x-value and the @racket[cdr] is the y-value.
  The current pen is used for
- drawing the lines.
+ drawing the lines.}
+  使用点的列表@racket[points]绘制线，向每个点添加@racket[xoffset]和@racket[yoffset]。一个配对被视为一个点，其中配对的@racket[car]是x值，@racket[cdr]是y值。当前笔用于绘制线条。
 
-See also @method[dc<%> set-smoothing] for information on the
- @racket['aligned] smoothing mode.
+@;{See also @method[dc<%> set-smoothing] for information on the
+ @racket['aligned] smoothing mode.}
+  另请参见@method[dc<%> set-smoothing]了解有关@racket['aligned]平滑模式的信息。
 
 @|DrawSizeNote|
 
@@ -252,29 +274,33 @@ See also @method[dc<%> set-smoothing] for information on the
                       [fill-style (or/c 'odd-even 'winding) 'odd-even])
            void?]{
 
-Draws the sub-paths of the given @racket[dc-path%] object, adding
+@;{Draws the sub-paths of the given @racket[dc-path%] object, adding
  @racket[xoffset] and @racket[yoffset] to each point. (See
  @racket[dc-path%] for general information on paths and sub-paths.)
  The current pen is used for drawing the path as a line, and the
- current brush is used for filling the area bounded by the path.
+ current brush is used for filling the area bounded by the path.}
+  绘制给定 @racket[dc-path%]对象的子路径，将@racket[xoffset]和@racket[yoffset]添加到每个点。（有关路径和子路径的一般信息，请参见@racket[dc-path%]）当前笔用于将路径绘制为直线，当前画笔用于填充路径边界区域。
 
-If both the pen and brush are non-transparent, the path is filled with
+@;{If both the pen and brush are non-transparent, the path is filled with
  the brush before the outline is drawn with the pen. The filling and
  outline meet so that no space is left between them, but the precise
  overlap between the filling and outline is platform- and
  size-specific.  Thus, the regions drawn by the brush and pen may
  overlap. More generally, the pen is centered over the path, rounding
- left and down in unsmoothed mode.
+ left and down in unsmoothed mode.}
+  如果笔和画笔都是不透明的，则在使用笔绘制轮廓之前，将使用画笔填充路径。填充和轮廓相交，因此它们之间没有空间，但是填充和轮廓之间的精确重叠是平台和尺寸特定的。因此，画笔和笔绘制的区域可能重叠。通常情况下，笔在路径上居中，以非平滑模式向左和向下取整。
 
-The @racket[fill-style] argument specifies the fill rule:
+@;{The @racket[fill-style] argument specifies the fill rule:
  @racket['odd-even] or @racket['winding]. In @racket['odd-even] mode, a
  point is considered enclosed within the path if it is enclosed by an
  odd number of sub-path loops. In @racket['winding] mode, a point is
  considered enclosed within the path if it is enclosed by more or less
- clockwise sub-path loops than counter-clockwise sub-path loops.
+ clockwise sub-path loops than counter-clockwise sub-path loops.}
+   @racket[fill-style]参数指定填充规则：@racket['odd-even]或@racket['winding]。在@racket['odd-even]模式下，如果一个点被奇数个子路径循环包围，则该点被视为封闭在路径中。在@racket['winding]模式下，如果一个点被多余或少于顺时针子路径循环包围，而不是逆时针子路径循环包围，则认为该点被包围在路径内。
 
-See also @method[dc<%> set-smoothing] for information on the
- @racket['aligned] smoothing mode.
+@;{See also @method[dc<%> set-smoothing] for information on the
+ @racket['aligned] smoothing mode.}
+  另请参见@method[dc<%> set-smoothing]了解有关@racket['aligned]平滑模式的信息。
 
 @|DrawSizeNote|
 
@@ -284,7 +310,8 @@ See also @method[dc<%> set-smoothing] for information on the
                        [y real?])
            void?]{
 
-Plots a single point using the current pen.
+@;{Plots a single point using the current pen.}
+  使用当前笔绘制单点。
 
 @|DrawSizeNote|
 
@@ -297,32 +324,36 @@ Plots a single point using the current pen.
                          [fill-style (or/c 'odd-even 'winding) 'odd-even])
            void?]{
 
-Draw a filled polygon using a list @racket[points] of points, adding
+@;{Draw a filled polygon using a list @racket[points] of points, adding
  @racket[xoffset] and @racket[yoffset] to each point. 
  A pair is treated as a point where the
  @racket[car] of the pair is the x-value and the @racket[cdr] is the y-value.
  The polygon is
  automatically closed, so the first and last point can be
  different. The current pen is used for drawing the outline, and the
- current brush for filling the shape.
+ current brush for filling the shape.}
+  使用点列表@racket[points]绘制一个填充多边形，向每个点添加@racket[xoffset]和@racket[yoffset]。一个配对被视为@racket[car]是x值，而@racket[cdr]是y值。多边形自动闭合，因此第一个点和最后一个点可以不同。当前笔用于绘制轮廓，当前画笔用于填充形状。
 
-If both the pen and brush are non-transparent, the polygon is filled
+@;{If both the pen and brush are non-transparent, the polygon is filled
  with the brush before the outline is drawn with the pen. The filling
  and outline meet so that no space is left between them, but the
  precise overlap between the filling and outline is platform- and
  shape-specific.  Thus, the regions drawn by the brush and pen may
  overlap. More generally, the pen is centered over the polygon lines,
- rounding left and down in unsmoothed mode.
+ rounding left and down in unsmoothed mode.}
+  如果钢笔和画笔都是不透明的，则在用钢笔绘制轮廓之前，多边形将用画笔填充。填充和轮廓相交，因此它们之间没有空间，但是填充和轮廓之间的精确重叠是平台和形状特定的。因此，画笔和笔绘制的区域可能重叠。通常情况下，笔在多边形线上居中，以非平滑模式向左和向下取整。
 
-The @racket[fill-style] argument specifies the fill rule:
+@;{The @racket[fill-style] argument specifies the fill rule:
  @racket['odd-even] or @racket['winding]. In @racket['odd-even] mode, a
  point is considered enclosed within the polygon if it is enclosed by
  an odd number of loops. In @racket['winding] mode, a point is
  considered enclosed within the polygon if it is enclosed by more or
- less clockwise loops than counter-clockwise loops.
+ less clockwise loops than counter-clockwise loops.}
+  @racket[fill-style]参数指定填充规则：@racket['odd-even]或@racket['winding]。在@racket['odd-even]模式下，如果一个点被奇数圈包围，则该点被视为封闭在多边形内。在@racket['winding]模式下，如果一个点被多于或少于逆时针圈的顺时针圈包围，则认为该点被包围在多边形内。
 
-See also @method[dc<%> set-smoothing] for information on the
- @racket['aligned] smoothing mode.
+@;{See also @method[dc<%> set-smoothing] for information on the
+ @racket['aligned] smoothing mode.}
+  另请参见 @method[dc<%> set-smoothing]了解有关@racket['aligned]平滑模式的信息。
 
 @|DrawSizeNote|
 
@@ -335,20 +366,24 @@ See also @method[dc<%> set-smoothing] for information on the
                            [height (and/c real? (not/c negative?))])
            void?]{
 
-Draws a rectangle with the given top-left corner and size.  The
+@;{Draws a rectangle with the given top-left corner and size.  The
  current pen is used for the outline and the current brush for filling
  the shape. If both the pen and brush are non-transparent, the
  rectangle is filled with the brush before the outline is drawn with
- the pen.
+ the pen.}
+  
+绘制具有给定左上角和大小的矩形。当前笔用于轮廓，当前画笔用于填充形状。如果笔和画笔都是不透明的，则在用笔绘制轮廓之前，矩形中会填充画笔。 
 
-In unsmoothed or aligned mode, when the pen is size 0 or 1, the
+@;{In unsmoothed or aligned mode, when the pen is size 0 or 1, the
  filling precisely overlaps the entire outline. More generally, in
  unsmoothed or aligned mode, the path for the outline is adjusted by
  shrinking the rectangle width and height by, after scaling, one
- drawing unit divided by the @tech{alignment scale}.
+ drawing unit divided by the @tech{alignment scale}.}
+  在非平滑或对齐模式下，当笔的大小为0或1时，填充会精确地重叠整个轮廓。通常，在非平滑或对齐模式下，通过缩小矩形的宽度和高度来调整轮廓路径，缩放后，通过@tech{对齐比例}分割一个绘图单位。
 
-See also @method[dc<%> set-smoothing] for information on the
-@racket['aligned] smoothing mode.
+@;{See also @method[dc<%> set-smoothing] for information on the
+@racket['aligned] smoothing mode.}
+  另请参见@method[dc<%> set-smoothing]了解有关@racket['aligned]平滑模式的信息。
 
 @|DrawSizeNote|
 
@@ -362,30 +397,35 @@ See also @method[dc<%> set-smoothing] for information on the
                                    [radius real? -0.25])
            void?]{
 
-Draws a rectangle with the given top-left corner, and with the given
+@;{Draws a rectangle with the given top-left corner, and with the given
  size. The corners are quarter-circles using the given radius.  The
  current pen is used for the outline and the current brush for filling
  the shape. If both the pen and brush are non-transparent, the rectangle is filled
- with the brush before the outline is drawn with the pen.
+ with the brush before the outline is drawn with the pen.}
+ 绘制具有给定左上角和给定大小的矩形。角是使用给定半径的四分之一圆。当前笔用于轮廓，当前画笔用于填充形状。如果笔和画笔都是不透明的，则矩形将被填充。在用钢笔画轮廓之前用刷子。 
 
-If @racket[radius] is positive, the value is used as the radius of the
+@;{If @racket[radius] is positive, the value is used as the radius of the
  rounded corner. If @racket[radius] is negative, the absolute value is
  used as the @italic{proportion} of the smallest dimension of the
- rectangle.
+ rectangle.}
+  如果@racket[radius]为正数，则该值将用作圆角的半径。如果@racket[radius]为负数，则绝对值将用作矩形最小尺寸的 @italic{比例}。
 
-If @racket[radius] is less than @racket[-0.5] or more than half of
- @racket[width] or @racket[height], @|MismatchExn|.
+@;{If @racket[radius] is less than @racket[-0.5] or more than half of
+ @racket[width] or @racket[height], @|MismatchExn|.}
+  如果@racket[radius]小于@racket[-0.5]或大于@racket[width]或@racket[height]的一半，@|MismatchExn|。
 
-Brush filling and pen outline meet so that no space is left between
+@;{Brush filling and pen outline meet so that no space is left between
  them, but the precise overlap between the filling and outline is
  platform- and size-specific.  Thus, the regions drawn by the brush
  and pen may partially overlap. In unsmoothed or aligned mode, the
  path for the outline is adjusted by, after scaling, shrinking the
  rectangle width and height by one drawing unit divided by the
- @tech{alignment scale}.
+ @tech{alignment scale}.}
+  画笔填充和笔轮廓相吻合，这样它们之间就没有空间了，但是填充和轮廓之间的精确重叠是平台和尺寸特定的。因此，画笔和笔绘制的区域可能部分重叠。在非平滑或对齐模式下，轮廓的路径在缩放后通过一个绘图单位除以@tech{对齐比例}来调整矩形的宽度和高度。
 
-See also @method[dc<%> set-smoothing] for information on the
-@racket['aligned] smoothing mode.
+@;{See also @method[dc<%> set-smoothing] for information on the
+@racket['aligned] smoothing mode.}
+ 另请参见@method[dc<%> set-smoothing]了解有关@racket['aligned]平滑模式的信息。 
 
 @|DrawSizeNote|
 
@@ -399,13 +439,16 @@ See also @method[dc<%> set-smoothing] for information on the
                         [y3 real?])
            void?]{
 
-@index['("drawing curves")]{Draws} a spline from (@racket[x1],
+@;{@index['("drawing curves")]{Draws} a spline from (@racket[x1],
  @racket[y1]) to (@racket[x3], @racket[y3]) using (@racket[x2],
- @racket[y2]) as the control point.
+ @racket[y2]) as the control point.}
+  @index['("drawing curves")]{使用}(@racket[x2],  @racket[y2])作为控制点，从(@racket[x1],
+ @racket[y1])到(@racket[x3], @racket[y3])绘制样条。
 
-See also @method[dc<%> set-smoothing] for information on the
+@;{See also @method[dc<%> set-smoothing] for information on the
  @racket['aligned] smoothing mode. See also @racket[dc-path%] and
- @method[dc<%> draw-path] for drawing more complex curves.
+ @method[dc<%> draw-path] for drawing more complex curves.}
+  另请参见@method[dc<%> set-smoothing]了解有关@racket['aligned]平滑模式的信息。另请参见@racket[dc-path%]和@method[dc<%> draw-path]以绘制更复杂的曲线。
 
 @|DrawSizeNote|
 
@@ -419,36 +462,44 @@ See also @method[dc<%> set-smoothing] for information on the
                       [angle real? 0])
            void?]{
 
-Draws a text string at a specified point, using the current text font,
+@;{Draws a text string at a specified point, using the current text font,
  and the current text foreground and background colors. For unrotated
  text, the specified point is used as the starting top-left point for
  drawing characters (e.g, if ``W'' is drawn, the point is roughly the
  location of the top-left pixel in the ``W''). Rotated text is rotated
- around this point.
+ around this point.}
+  使用当前文本字体、当前文本前景色和背景色在指定点绘制文本字符串。对于未汇总的文本，指定的点用作绘制字符的左上角起点（例如，如果绘制了“W”，则该点大致是“W”中左上角像素的位置）。旋转的文本围绕该点旋转。
 
-The @racket[text] string is drawn starting from the @racket[offset]
+@;{The @racket[text] string is drawn starting from the @racket[offset]
  character, and continuing until the end of @racket[text] or the first
- null character.
+ null character.}
+  @racket[text]字符串从@racket[offset]字符开始绘制，一直绘制到@racket[text]或第一个空字符结束。
 
-If @racket[combine?] is @racket[#t], then @racket[text] may be
+@;{If @racket[combine?] is @racket[#t], then @racket[text] may be
  measured with adjacent characters combined to ligature glyphs, with
  Unicode combining characters as a single glyph, with kerning, with
  right-to-left rendering of characters, etc. If @racket[combine?] is
  @racket[#f], then the result is the same as if each character is
- measured separately, and Unicode control characters are ignored.
+ measured separately, and Unicode control characters are ignored.}
+  如果@racket[combine?]是@racket[#t]，那么@racket[text]可以用相邻字符组合到连字符来测量，Unicode组合字符作为单个连字符，用紧排，用从右到左的字符呈现等。如果是@racket[combine?]为@racket[#f]，则结果与单独测量每个字符的结果相同，并且忽略Unicode控制字符。
 
-The string is rotated by @racket[angle] radians counter-clockwise. If
+@;{The string is rotated by @racket[angle] radians counter-clockwise. If
  @racket[angle] is not zero, then the text is always drawn in
- transparent mode (see @method[dc<%> set-text-mode]).
+ transparent mode (see @method[dc<%> set-text-mode]).}
+  字符串逆时针旋转@racket[angle]弧度。如果@racket[angle]不是零，则文本始终以透明模式绘制（请参见 @method[dc<%> set-text-mode]）。
 
-The current brush and current pen settings for the DC have no effect
- on how the text is drawn.
+@;{The current brush and current pen settings for the DC have no effect
+ on how the text is drawn.}
+  DC的当前画笔和当前笔设置对文本的绘制方式没有影响。
 
-See @method[dc<%> get-text-extent] for information on the size of the
- drawn text.
+@;{See @method[dc<%> get-text-extent] for information on the size of the
+ drawn text.}
+  有关绘制文本的大小信息，请参见@method[dc<%> get-text-extent]。
 
-See also @method[dc<%> set-text-foreground], @method[dc<%>
- set-text-background], and @method[dc<%> set-text-mode].
+@;{See also @method[dc<%> set-text-foreground], @method[dc<%>
+ set-text-background], and @method[dc<%> set-text-mode].}
+  另请参见@method[dc<%> set-text-foreground]、@method[dc<%>
+ set-text-background]和@method[dc<%> set-text-mode]。
 
 @|DrawSizeNote|
 
@@ -457,14 +508,16 @@ See also @method[dc<%> set-text-foreground], @method[dc<%>
 @defmethod[(end-doc)
            void?]{
 
-Ends a document, relevant only when drawing to a printer, PostScript,
- PDF, or SVG device.
+@;{Ends a document, relevant only when drawing to a printer, PostScript,
+ PDF, or SVG device.}
+  结束文档，仅在绘制到打印机、PostScript、PDF或SVG设备时相关。
 
-For relevant devices, an exception is raised if
+@;{For relevant devices, an exception is raised if
 @method[dc<%> end-doc] is called when the document is not started with
 @method[dc<%> start-doc], when a page is currently started by
 @method[dc<%> start-page] and not ended with @method[dc<%> end-page],
-or when the document has been ended already.
+or when the document has been ended already.}
+  对于相关设备，如果在文档不是以@method[dc<%> start-doc]启动时调用@method[dc<%> end-doc]，当页面当前是由@method[dc<%> start-page]启动而不是以@method[dc<%> start-page]结束时调用，或者文档已经结束时调用@method[dc<%> end-page]，则会引发异常。
 
 }
 
@@ -472,54 +525,57 @@ or when the document has been ended already.
 @defmethod[(end-page)
            void?]{
 
-Ends a single page, relevant only when drawing to a printer,
- PostScript, PDF, or SVG device.
+@;{Ends a single page, relevant only when drawing to a printer,
+ PostScript, PDF, or SVG device.}
+仅当绘图到打印机、PostScript、PDF或SVG设备时，才结束一页。
 
-For relevant devices, an exception is raised if
+@;{For relevant devices, an exception is raised if
 @method[dc<%> end-page] is called when a page is not currently started by
 @method[dc<%> start-page].}
+ 对于相关设备，如果@method[dc<%> end-page]在当前未由@method[dc<%> start-page]启动页面时调用，则会引发异常。}
 
 
 @defmethod[(erase)
            void?]{
 
-For a drawing context that has an alpha channel, @method[dc<%> erase]
+@;{For a drawing context that has an alpha channel, @method[dc<%> erase]
 sets all alphas to zero. Similarly, for a transparent canvas,
 @method[dc<%> erase] erases all drawing to allow the background window
 to show through. For other drawing contexts that have no alpha channel
 or transparency, @method[dc<%> erase] fills the drawing context with
 white.}
+ 对于具有alpha通道的绘图上下文，@method[dc<%> erase]将所有alphas设置为零。同样，对于透明画布，@method[dc<%> erase]会擦除所有绘图，以允许背景窗口显示。对于没有alpha通道或透明度的其它绘图上下文，@method[dc<%> erase]将绘图上下文填充为白色。}
 
 
 @defmethod[(flush) void?]{
 
-Calls the @xmethod[canvas<%> flush] method for
+@;{Calls the @xmethod[canvas<%> flush] method for
 @racket[canvas<%>] output, and has no effect for other kinds of
 drawing contexts.}
-
-
+ 为@racket[canvas<%>]输出调用@xmethod[canvas<%> flush]方法，并且对其他类型的绘图上下文无效。}
 
 @defmethod[(get-alpha)
            (real-in 0 1)]{
 
-Gets the current opacity for drawing; see
-@method[dc<%> set-alpha].
+@;{Gets the current opacity for drawing; see
+@method[dc<%> set-alpha].}
+  获取绘图的当前不透明度；请参见@method[dc<%> set-alpha]。
 
 }
 
 @defmethod[(get-background)
            (is-a?/c color%)]{
 
-Gets the color used for painting the background. See also
-@method[dc<%> set-background].
-
+@;{Gets the color used for painting the background. See also
+@method[dc<%> set-background].}
+获取用于绘制背景的颜色。另见@method[dc<%> set-background]。
 }
-
 
 @defmethod[(get-backing-scale)
            (>/c 0.0)]{
 
-Returns the @tech{backing scale} of the drawing context's destination.
+@;{Returns the @tech{backing scale} of the drawing context's destination.}
+  返回绘图上下文目标的@tech{背衬比例（backing scale）}。
 
 @history[#:added "1.12"]}
 
@@ -527,68 +583,77 @@ Returns the @tech{backing scale} of the drawing context's destination.
 @defmethod[(get-brush)
            (is-a?/c brush%)]{
 
-Gets the current brush. See also @method[dc<%> set-brush].
+@;{Gets the current brush. See also @method[dc<%> set-brush].}
+ 获取当前画笔。另见@method[dc<%> set-brush]。
 
 }
 
 @defmethod[(get-char-height)
            (and/c real? (not/c negative?))]{
 
-Gets the height of a character using the current font.
+@;{Gets the height of a character using the current font.}
+  获取使用当前字体的字符高度。
 
-Unlike most methods, this method can be called for a
- @racket[bitmap-dc%] object without a bitmap installed.
+@;{Unlike most methods, this method can be called for a
+ @racket[bitmap-dc%] object without a bitmap installed.}
+  与大多数方法不同，此方法可以在不安装位图的情况下为@racket[bitmap-dc%]对象调用。
 
 }
 
 @defmethod[(get-char-width)
            (and/c real? (not/c negative?))]{
 
-Gets the average width of a character using the current font.
+@;{Gets the average width of a character using the current font.}
+  获取使用当前字体的字符的平均宽度。
 
-Unlike most methods, this method can be called for a
- @racket[bitmap-dc%] object without a bitmap installed.
-
+@;{Unlike most methods, this method can be called for a
+ @racket[bitmap-dc%] object without a bitmap installed.}
+与大多数方法不同，此方法可以在不安装位图的情况下为@racket[bitmap-dc%]对象调用。
 }
 
 @defmethod[(get-clipping-region)
            (or/c (is-a?/c region%) #f)]{
 
-Gets the current clipping region, returning @racket[#f] if the drawing
+@;{Gets the current clipping region, returning @racket[#f] if the drawing
  context is not clipped (i.e., the clipping region is the entire
- drawing region).
+ drawing region).}
+  获取当前剪切区域，如果绘图上下文未被剪切（即剪切区域是整个绘图区域），则返回@racket[#f]。
 
 }
-
 
 @defmethod[(get-device-scale)
            (values (and/c real? (not/c negative?))
                    (and/c real? (not/c negative?)))]{
 
-Gets an ``external'' scaling factor for drawing coordinates to the
+@;{Gets an ``external'' scaling factor for drawing coordinates to the
 target device. For most DCs, the result is @racket[1.0] and
-@racket[1.0].
+@racket[1.0].}
+  获取用于向目标设备绘制坐标的“外部”缩放因子。对于大多数分布式控制系统，结果是@racket[1.0]和@racket[1.0]。
 
-A @racket[post-script-dc%] or @racket[pdf-dc%] object returns scaling
+@;{A @racket[post-script-dc%] or @racket[pdf-dc%] object returns scaling
 factors determined via @xmethod[ps-setup% get-scaling] at the time
 that the DC was created. A @racket[printer-dc%] may also have a
 user-configured scaling factor.}
+ @racket[post-script-dc%]或@racket[pdf-dc%]对象返回在创建DC时通过@xmethod[ps-setup% get-scaling]确定的缩放系数。@racket[printer-dc%]也可能具有用户配置的比例因子。}
 
 
 @defmethod[(get-font)
            (is-a?/c font%)]{
 
-Gets the current font. See also @method[dc<%> set-font].
+@;{Gets the current font. See also @method[dc<%> set-font].}
+ 获取当前字体。另见@method[dc<%> set-font]。 
 
 }
 
 @defmethod[(get-gl-context)
            (or/c (is-a?/c gl-context<%>) #f)]{
 
-Returns a @racket[gl-context<%>] object for this drawing context
- if it supports OpenGL, @racket[#f] otherwise.
+@;{Returns a @racket[gl-context<%>] object for this drawing context
+ if it supports OpenGL, @racket[#f] otherwise.}
+  如果此绘图上下文支持OpenGL，则返回该绘图上下文的@racket[gl-context<%>]对象，否则返回@racket[#f]。
 
-See @racket[gl-context<%>] for more information.
+@;{See @racket[gl-context<%>] for more information.}
+  有关详细信息，请参阅@racket[gl-context<%>]。
 
 }
 
@@ -710,15 +775,18 @@ Gets the size of the destination drawing area. For a @racket[dc<%>]
 @defmethod[(get-smoothing)
            (or/c 'unsmoothed 'smoothed 'aligned)]{
 
-Returns the current smoothing mode. See @method[dc<%> set-smoothing].
+@;{Returns the current smoothing mode. See @method[dc<%> set-smoothing].}
+  返回当前平滑模式。参见@method[dc<%> set-smoothing]。
 
 }
 
 @defmethod[(get-text-background)
            (is-a?/c color%)]{
 
-Gets the current text background color. See also @method[dc<%>
-set-text-background].
+@;{Gets the current text background color. See also @method[dc<%>
+set-text-background].}
+  获取当前文本背景色。另请参见@method[dc<%>
+set-text-background]。
 
 }
 
@@ -732,46 +800,55 @@ set-text-background].
                    (and/c real? (not/c negative?)))]{
 
 
-Returns the size of @racket[str] as it would be drawn in the drawing
+@;{Returns the size of @racket[str] as it would be drawn in the drawing
  context, starting from the @racket[offset] character of @racket[str],
  and continuing until the end of @racket[str] or the first null
  character.  The @racket[font] argument specifies the font to use in
  measuring the text; if it is @racket[#f], the current font of the
- drawing area is used. (See also @method[dc<%> set-font].)
+ drawing area is used. (See also @method[dc<%> set-font].)}
+  返回将在绘图上下文中绘制的@racket[str]的大小，从@racket[str]的@racket[offset]字符开始，一直到@racket[str]或第一个空字符结束。@racket[font]参数指定用于测量文本的字体；如果它是@racket[#f]，则使用绘图区域的当前字体。（另请参见@method[dc<%> set-font]。）
 
-The result is four real numbers:
+@;{The result is four real numbers:}
+  结果是四个实数：
 
 @itemize[
 
- @item{the total width of the text (depends on both the font and the
+ @item{@;{the total width of the text (depends on both the font and the
  text);}
+   文本的总宽度（取决于字体和文本）；}
 
- @item{the total height of the font (depends only on the font);}
+ @item{@;{the total height of the font (depends only on the font);}
+   字体的总高度（仅取决于字体）；}
 
- @item{the distance from the baseline of the font to the bottom of the
+ @item{@;{the distance from the baseline of the font to the bottom of the
  descender (included in the height, depends only on the font); and}
+   字体基线到下伸器底部的距离（包括在高度中，仅取决于字体）；以及}
 
- @item{extra vertical space added to the font by the font designer
+ @item{@;{extra vertical space added to the font by the font designer
  (included in the height, and often zero; depends only on the font).}
+   字体设计器添加到字体的额外垂直空间（包括在高度中，通常为零；仅取决于字体）。}
 
 ]
 
-The returned width and height define a rectangle is that guaranteed to
+@;{The returned width and height define a rectangle is that guaranteed to
  contain the text string when it is drawn, but the fit is not
  necessarily tight. Some undefined number of pixels on the left,
  right, top, and bottom of the drawn string may be ``whitespace,''
  depending on the whims of the font designer and the platform-specific
- font-scaling mechanism.
+ font-scaling mechanism.}
+  返回的宽度和高度定义了一个矩形，它保证在绘制时包含文本字符串，但不一定紧密匹配。根据字体设计人员的想法和平台特定的字体缩放机制，绘制字符串左侧、右侧、顶部和底部的一些未定义的像素可能是“空白”。
 
-If @racket[combine?] is @racket[#t], then @racket[text] may be drawn
+@;{If @racket[combine?] is @racket[#t], then @racket[text] may be drawn
  with adjacent characters combined to ligature glyphs, with Unicode
  combining characters as a single glyph, with kerning, with
  right-to-left ordering of characters, etc. If @racket[combine?] is
  @racket[#f], then the result is the same as if each character is
- drawn separately, and Unicode control characters are ignored.
+ drawn separately, and Unicode control characters are ignored.}
+  如果@racket[combine?]是@racket[#t]，那么@racket[text]可以用相邻的字符组合到连字符，用Unicode组合字符作为一个单个连字符，用紧排，用从右到左的字符顺序绘制，等等。如果是@racket[combine?]为@racket[#f]，则结果与单独绘制每个字符的结果相同，并且忽略Unicode控制字符。
 
-Unlike most methods, this method can be called for a
- @racket[bitmap-dc%] object without a bitmap installed.
+@;{Unlike most methods, this method can be called for a
+ @racket[bitmap-dc%] object without a bitmap installed.}
+  与大多数方法不同，此方法可以在不安装位图的情况下为@racket[bitmap-dc%]对象调用。
 
 
  @examples[
@@ -784,38 +861,49 @@ Unlike most methods, this method can be called for a
 @defmethod[(get-text-foreground)
            (is-a?/c color%)]{
 
-Gets the current text foreground color. See also @method[dc<%>
-set-text-foreground].
+@;{Gets the current text foreground color. See also @method[dc<%>
+set-text-foreground].}
+  获取当前文本前景色。另请参见@method[dc<%>
+set-text-foreground]。
 
 }
 
 
 @defmethod[(get-text-mode)
            (or/c 'solid 'transparent)]{
-Reports how text is drawn; see
+@;{Reports how text is drawn; see
 @method[dc<%> set-text-mode].}
+ 报告如何绘制文本；请参见@method[dc<%> set-text-mode]。}
 
 
 @defmethod[(get-transformation)
            (vector/c (vector/c real? real? real? real? real? real?)
                      real? real? real? real? real?)]{
 
-Returns the current transformation setting of the drawing context in a
+@;{Returns the current transformation setting of the drawing context in a
 form that is suitable for restoration via @method[dc<%>
-set-transformation].
+set-transformation].}
+  以适合通过@method[dc<%>
+set-transformation]还原的形式返回绘图上下文的当前转换设置。
 
-The vector content is as follows:
+@;{The vector content is as follows:}
+  矢量内容如下：
 
 @itemlist[
 
- @item{the initial transformation matrix; see @method[dc<%>
+ @item{@;{the initial transformation matrix; see @method[dc<%>
        get-initial-matrix];}
+   初始变换矩阵；见@method[dc<%>
+       get-initial-matrix]；}
 
- @item{the X and Y origin; see @method[dc<%> get-origin];}
+ @item{@;{the X and Y origin; see @method[dc<%> get-origin];}
+   x和y原点；见@method[dc<%> get-origin]；}
 
- @item{the X and Y scale; see @method[dc<%> get-origin];}
+ @item{@;{the X and Y scale; see @method[dc<%> get-origin];}
+   x和y比例；见@method[dc<%> get-origin]；}
 
- @item{a rotation; see @method[dc<%> get-rotation].}
+ @item{@;{a rotation; see @method[dc<%> get-rotation].}
+   旋转；参见@method[dc<%> get-rotation]。}
 
 ]}
 
@@ -941,10 +1029,12 @@ treated as white.
                                       'horizontal-hatch 'vertical-hatch)])
               void?])]{
 
-Sets the current brush for drawing in this object.  While a brush is
+@;{Sets the current brush for drawing in this object.  While a brush is
  selected into a drawing context, it cannot be modified. When a color
  and style are given, the arguments are as for @xmethod[brush-list%
- find-or-create-brush].
+ find-or-create-brush].}
+  设置用于在此对象中绘制的当前画笔。在绘图上下文中选择一个画笔时，不能修改它。当给定颜色和样式时，参数是关于@xmethod[brush-list%
+ find-or-create-brush]的。
 
 }
 
@@ -967,38 +1057,47 @@ get-clipping-region].
 @defmethod[(set-clipping-region [rgn (or/c (is-a?/c region%) #f)])
            void?]{
 
-Sets the clipping region for the drawing area, turning off all
- clipping within the drawing region if @racket[#f] is provided.
+@;{Sets the clipping region for the drawing area, turning off all
+ clipping within the drawing region if @racket[#f] is provided.}
+  设置绘图区域的剪切区域，如果提供了@racket[#f]，则关闭绘图区域内的所有剪切。
 
-The clipping region must be reset after changing a @racket[dc<%>]
+@;{The clipping region must be reset after changing a @racket[dc<%>]
  object's origin or scale (unless it is @racket[#f]); see
- @racket[region%] for more information.
+ @racket[region%] for more information.}
+  更改@racket[dc<%>]对象的原点或比例（除非它是@racket[#f]）后，必须重置剪裁区域；有关详细信息，请参阅@racket[region%]。
 
-See also @method[dc<%> set-clipping-rect] and @method[dc<%>
- get-clipping-region].
+@;{See also @method[dc<%> set-clipping-rect] and @method[dc<%>
+ get-clipping-region].}
+  参见 @method[dc<%> set-clipping-rect]和@method[dc<%>
+ get-clipping-region]。
+  
 
 }
 
 @defmethod[(set-font [font (is-a?/c font%)])
            void?]{
 
-Sets the current font for drawing text in this object.
+@;{Sets the current font for drawing text in this object.}
+  设置此对象中绘图文本的当前字体。
 
 }
 
 @defmethod[(set-initial-matrix [m (vector/c real? real? real? real? real? real?)])
            void?]{
 
-Set a transformation matrix that converts logical coordinates to
+@;{Set a transformation matrix that converts logical coordinates to
  device coordinates. The matrix applies before additional origin
- offset, scaling, and rotation.
+ offset, scaling, and rotation.}
+  设置将逻辑坐标转换为设备坐标的转换矩阵。该矩阵在附加原点偏移、缩放和旋转之前应用。
 
-See @method[dc<%> get-initial-matrix] for information on the matrix as
- represented by a vector @racket[m].
+@;{See @method[dc<%> get-initial-matrix] for information on the matrix as
+ represented by a vector @racket[m].}
+  参见@method[dc<%> get-initial-matrix]了解向量@racket[m]表示的矩阵信息。
 
-See also @method[dc<%> transform], which adds a transformation to the
+@;{See also @method[dc<%> transform], which adds a transformation to the
  current transformation, instead of changing the transformation
- composition in the middle.
+ composition in the middle.}
+  请参见@method[dc<%> transform]，它将转换添加到当前转换，而不是在中间更改转换构图。
 
 @|DrawSizeNote|
 
@@ -1008,13 +1107,15 @@ See also @method[dc<%> transform], which adds a transformation to the
                        [y real?])
            void?]{
 
-Sets the device origin, i.e., the location in device coordinates of
+@;{Sets the device origin, i.e., the location in device coordinates of
  @math{(0,0)} in logical coordinates. The origin offset applies after
- the initial transformation matrix, but before scaling and rotation.
+ the initial transformation matrix, but before scaling and rotation.}
+  设置设备原点，即逻辑坐标中的@math{(0,0)}在设备坐标中的位置。原点偏移应用于初始变换矩阵之后，但在缩放和旋转之前。
 
-See also @method[dc<%> translate], which adds a translation to the
+@;{See also @method[dc<%> translate], which adds a translation to the
  current transformation, instead of changing the transformation
- composition in the middle.
+ composition in the middle.}
+  请参见@method[dc<%> translate]，它将转换添加到当前转换，而不是在中间更改转换构图。
 
 @|DrawSizeNote|
 
@@ -1037,14 +1138,19 @@ See also @method[dc<%> translate], which adds a translation to the
                                     'xor-dot-dash)])
               void?])]{
 
-Sets the current pen for this object. When a color, width, and style
+@;{Sets the current pen for this object. When a color, width, and style
  are given, the arguments are as for @xmethod[pen-list%
- find-or-create-pen].
+ find-or-create-pen].}
+  设置此对象的当前笔。当给定颜色、宽度和样式时，参数与@xmethod[pen-list%
+ find-or-create-pen]相同。
 
-The current pen does not affect text drawing; see also @method[dc<%>
- set-text-foreground].
+@;{The current pen does not affect text drawing; see also @method[dc<%>
+ set-text-foreground].}
+  当前笔不影响文本绘制；另请参见@method[dc<%>
+ set-text-foreground]。
 
-While a pen is selected into a drawing context, it cannot be modified.
+@;{While a pen is selected into a drawing context, it cannot be modified.}
+  在绘图上下文中选择一个笔时，不能修改它。
 
 }
 
