@@ -660,30 +660,33 @@ user-configured scaling factor.}
 @defmethod[(get-initial-matrix)
            (vector/c real? real? real? real? real? real?)]{
 
-Returns a transformation matrix that converts logical coordinates to
+@;{Returns a transformation matrix that converts logical coordinates to
  device coordinates. The matrix applies before additional origin
- offset, scaling, and rotation.
+ offset, scaling, and rotation.}
+  返回将逻辑坐标转换为设备坐标的转换矩阵。该矩阵在附加原点偏移、缩放和旋转之前应用。
 
-The vector content corresponds to a transformation matrix in the
-following order:
+@;{The vector content corresponds to a transformation matrix in the
+following order:}
+  矢量内容对应于以下顺序的变换矩阵：
 
 @itemlist[
 
- @item{@racket[_xx]: a scale from the logical @racket[_x] to the device @racket[_x]}
+ @item{@racket[_xx]: @;{a scale from the logical @racket[_x] to the device @racket[_x]}从逻辑@racket[_x]到设备@racket[_x]的比例}
 
- @item{@racket[_xy]: a scale from the logical @racket[_x] added to the device @racket[_y]}
+ @item{@racket[_xy]: @;{a scale from the logical @racket[_x] added to the device @racket[_y]}从添加到设备@racket[_y]的逻辑@racket[_x]开始的刻度}
 
- @item{@racket[_yx]: a scale from the logical @racket[_y] added to the device @racket[_x]}
+ @item{@racket[_yx]: @;{a scale from the logical @racket[_y] added to the device @racket[_x]}从添加到设备@racket[_x]的逻辑@racket[_y]开始的刻度}
 
- @item{@racket[_yy]: a scale from the logical @racket[_y] to the device @racket[_y]}
+ @item{@racket[_yy]: @;{a scale from the logical @racket[_y] to the device @racket[_y]}从逻辑@racket[_y]到设备@racket[_y]的比例}
 
- @item{@racket[_x0]: an additional amount added to the device @racket[_x]}
+ @item{@racket[_x0]: @;{an additional amount added to the device @racket[_x]}添加到设备@racket[_x]的额外数量}
 
- @item{@racket[_y0]: an additional amount added to the device @racket[_y]}
+ @item{@racket[_y0]: @;{an additional amount added to the device @racket[_y]}添加到设备@racket[_y]的附加量}
 
 ]
 
-See also @method[dc<%> set-initial-matrix] and @method[dc<%> get-transformation].
+@;{See also @method[dc<%> set-initial-matrix] and @method[dc<%> get-transformation].}
+  另请参见@method[dc<%> set-initial-matrix]和@method[dc<%> get-transformation]。
 
 }
 
@@ -691,11 +694,13 @@ See also @method[dc<%> set-initial-matrix] and @method[dc<%> get-transformation]
 @defmethod[(get-origin)
            (values real? real?)]{
 
-Returns the device origin, i.e., the location in device coordinates of
+@;{Returns the device origin, i.e., the location in device coordinates of
  @math{(0,0)} in logical coordinates. The origin offset applies after
- the initial transformation matrix, but before scaling and rotation.
+ the initial transformation matrix, but before scaling and rotation.}
+  返回设备原点，即在逻辑坐标中， @math{(0,0)}在设备坐标中的位置。原点偏移应用于初始变换矩阵之后，但在缩放和旋转之前。
 
-See also @method[dc<%> set-origin] and @method[dc<%> get-transformation].
+@;{See also @method[dc<%> set-origin] and @method[dc<%> get-transformation].}
+  另请参见@method[dc<%> set-origin]和@method[dc<%> get-transformation]。
 
 }
 
@@ -703,7 +708,8 @@ See also @method[dc<%> set-origin] and @method[dc<%> get-transformation].
 @defmethod[(get-pen)
            (is-a?/c pen%)]{
 
-Gets the current pen. See also @method[dc<%> set-pen].
+@;{Gets the current pen. See also @method[dc<%> set-pen].}
+  获取当前笔。另见@method[dc<%> set-pen]。
 
 }
                      
@@ -711,64 +717,74 @@ Gets the current pen. See also @method[dc<%> set-pen].
 @defmethod[(get-path-bounding-box [path (is-a?/c dc-path%)] 
                                   [type (or/c 'path 'stroke 'fill)])
            (values real? real? real? real?)]{
-Returns a rectangle that encloses the path’s points. 
+@;{Returns a rectangle that encloses the path’s points. 
 The return values are the left, top, width, and, height of the rectangle.
-The numbers are in logical coordinates.
+The numbers are in logical coordinates.}
+  返回一个包含路径点的矩形。返回值为矩形的左、上、宽和高。数字以逻辑坐标表示。
 
-For the type @racket['stroke] the rectangle covers the area that would be affected (``inked'')
+@;{For the type @racket['stroke] the rectangle covers the area that would be affected (``inked'')
 when drawn with the current pen by draw-path in the drawing context (with a transparent brush). 
 If the pen width is zero, then an empty rectangle will be returned. The size and clipping of the 
-drawing context is ignored.
+drawing context is ignored.}
+  对于@racket['stroke]（笔划）类型，矩形覆盖了在绘图上下文（使用透明画笔）中通过绘制路径使用当前笔绘制时将受影响的区域（“墨迹（inked）”）。如果笔宽为零，则返回一个空矩形。忽略图形上下文的大小和剪裁。
 
-For the type @racket['fill] the rectangle covers the area that would be affected (``inked'')
+@;{For the type @racket['fill] the rectangle covers the area that would be affected (``inked'')
 by draw-path in the drawing context (with a non-transparent pen and brush). If the line width 
 is zero, then an empty rectangle will be returned. The size and clipping of the drawing
-context are ignored.
+context are ignored.}
+对于@racket['fill]（填充）类型，矩形覆盖绘图上下文中绘制路径（使用不透明的笔和画笔）将影响的区域（“墨迹”）。如果线宽为零，则返回一个空矩形。图形上下文的大小和剪裁将被忽略。
 
-For the type @racket['path] the rectangle covers the path, but the pen and brush are ignored.
+@;{For the type @racket['path] the rectangle covers the path, but the pen and brush are ignored.
 The size and clipping of the drawing context are also ignored.
 More precisely: The result is defined as the limit of the bounding boxes returned
 by the @racket['stroke] type for line widths approaching 0 with a round pen cap. The ``limit
 process'' stops when an empty rectangle is returned. This implies that zero-area segments 
-contributes to the rectangle.
+contributes to the rectangle.}
+  对于@racket['path]（路径）类型，矩形覆盖路径，但笔和画笔被忽略。图形上下文的大小和剪裁也将被忽略。更准确地说：结果被定义为@racket['stroke]（笔划）类型返回的边界框的限制，因为线条宽度接近0且带有圆笔帽。当返回空矩形时，“限制进程（limit
+process）”停止。这意味着零区域段对矩形有贡献。
 
-For all types if the path is empty, then an empty rectangle @racket[(values 0 0 0 0)] 
-will be returned.
+@;{For all types if the path is empty, then an empty rectangle @racket[(values 0 0 0 0)] 
+will be returned.}
+  对于所有类型，如果路径为空，则返回空矩形@racket[(values 0 0 0 0)] 。
 }
  
 
 @defmethod[(get-rotation) real?]{
 
-Returns the rotation of logical coordinates in radians to device
+@;{Returns the rotation of logical coordinates in radians to device
 coordinates. Rotation applies after the initial transformation matrix,
-origin offset, and scaling.
+origin offset, and scaling.}
+  返回以弧度表示的逻辑坐标到设备坐标的旋转。旋转应用于初始变换矩阵、原点偏移和缩放之后。
 
-See also @method[dc<%> set-rotation] and @method[dc<%> get-transformation].
+@;{See also @method[dc<%> set-rotation] and @method[dc<%> get-transformation].}
+  另见@method[dc<%> set-rotation]和@method[dc<%> get-transformation]。
 
 }
 
 @defmethod[(get-scale)
            (values real? real?)]{
 
-Returns the scaling factor that maps logical coordinates to device
+@;{Returns the scaling factor that maps logical coordinates to device
 coordinates. Scaling applies after the initial transformation matrix
-and origin offset, but before rotation.
+and origin offset, but before rotation.}
+  返回将逻辑坐标映射到设备坐标的比例因子。缩放应用于初始变换矩阵和原点偏移之后，但在旋转之前。
 
-See also @method[dc<%> set-scale] and @method[dc<%> get-transformation].
-
+@;{See also @method[dc<%> set-scale] and @method[dc<%> get-transformation].}
+另见@method[dc<%> set-scale]和@method[dc<%> get-transformation]。
 }
 
 @defmethod[(get-size)
            (values (and/c real? (not/c negative?))
                    (and/c real? (not/c negative?)))]{
 
-Gets the size of the destination drawing area. For a @racket[dc<%>]
+@;{Gets the size of the destination drawing area. For a @racket[dc<%>]
  object obtained from a @racket[canvas<%>], this is the (virtual
  client) size of the destination window; for a @racket[bitmap-dc%]
  object, this is the size of the selected bitmap (or 0 if no bitmap is
  selected); for a @racket[post-script-dc%] or @racket[printer-dc%]
  drawing context, this gets the horizontal and vertical size of the
- drawing area.
+ drawing area.}
+  获取目标绘图区域的大小。对于从@racket[canvas<%>]获取的@racket[dc<%>]对象，这是目标窗口的（虚拟客户端）大小；对于@racket[bitmap-dc%]对象，这是所选位图的大小（如果未选择位图，则为0）；对于@racket[post-script-dc%]或@racket[printer-dc%]绘图上下文，这将获取绘图区域的水平和垂直大小。
 
 }
 
@@ -911,44 +927,51 @@ set-transformation]还原的形式返回绘图上下文的当前转换设置。
 @defmethod[(glyph-exists? [c char?])
            boolean?]{
 
-Returns @racket[#t] if the given character has a corresponding glyph
- for this drawing context, @racket[#f] otherwise.
+@;{Returns @racket[#t] if the given character has a corresponding glyph
+ for this drawing context, @racket[#f] otherwise.}
+  如果给定字符具有此绘图上下文的对应glyph，则返回@racket[#t]，否则返回[#f]。 
 
-Due to automatic font substitution when drawing or measuring text, the
+@;{Due to automatic font substitution when drawing or measuring text, the
  result of this method does not depend on the given font, which merely
  provides a hint for the glyph search. If the font is @racket[#f], the
  drawing context's current font is used. The result depends on the
  type of the drawing context, but the result for @racket[canvas%]
  @racket[dc<%>] instances and @racket[bitmap-dc%] instances is always
- the same for a given platform and a given set of installed fonts.
+ the same for a given platform and a given set of installed fonts.}
+由于在绘制或测量文本时自动进行字体替换，该方法的结果不依赖于给定的字体，只为字形搜索提供提示。如果字体为@racket[#f]，则使用绘图上下文的当前字体。结果取决于绘图上下文的类型，但@racket[canvas%]
+ @racket[dc<%>]实例和 @racket[bitmap-dc%]实例的结果对于给定的平台和给定的已安装字体集始终相同。
 
-See also @method[font% screen-glyph-exists?] .
+@;{See also @method[font% screen-glyph-exists?] .}
+  另请参见@method[font% screen-glyph-exists?]。
 
 }
 
 @defmethod[(ok?)
            boolean?]{
 
-Returns @racket[#t] if the drawing context is usable.
-
+@;{Returns @racket[#t] if the drawing context is usable.}
+如果绘图上下文可用，则返回@racket[#t]。
 }
 
 
 @defmethod[(resume-flush) void?]{
 
-Calls the @xmethod[canvas<%> resume-flush] method for
+@;{Calls the @xmethod[canvas<%> resume-flush] method for
 @racket[canvas<%>] output, and has no effect for other kinds of
 drawing contexts.}
+ 对@racket[canvas<%>]输出调用@xmethod[canvas<%> resume-flush]方法，对其它类型的绘图上下文无效。}
 
 
 @defmethod[(rotate [angle real?]) void?]{
 
-Adds a rotation of @racket[angle] radians to the drawing context's
-current transformation.
+@;{Adds a rotation of @racket[angle] radians to the drawing context's
+current transformation.}
+  将@racket[angle]弧度的旋转添加到绘图上下文的当前转换中。
 
-Afterward, the drawing context's transformation is represented in the
+@;{Afterward, the drawing context's transformation is represented in the
 initial transformation matrix, and the separate origin, scale, and
-rotation settings have their identity values.
+rotation settings have their identity values.}
+  然后，图形上下文的转换在初始转换矩阵中表示，单独的原点、比例和旋转设置具有它们的标识值。
 
 }
 
@@ -956,27 +979,31 @@ rotation settings have their identity values.
                   [y-scale real?])
            void?]{
 
-Adds a scaling of @racket[x-scale] in the X-direction and
+@;{Adds a scaling of @racket[x-scale] in the X-direction and
 @racket[y-scale] in the Y-direction to the drawing context's current
-transformation.
+transformation.}
+  将X方向的@racket[x-scale]和Y方向的@racket[y-scale]添加到图形上下文的当前转换中。
 
-Afterward, the drawing context's transformation is represented in the
+@;{Afterward, the drawing context's transformation is represented in the
 initial transformation matrix, and the separate origin, scale, and
-rotation settings have their identity values.
+rotation settings have their identity values.}
+  然后，图形上下文的转换在初始转换矩阵中表示，单独的原点、比例和旋转设置具有它们的标识值。
 
 }
 
 @defmethod[(set-alignment-scale [scale (>/c 0.0)])
            void?]{
 
-Sets the drawing context's @deftech{alignment scale}, which determines
+@;{Sets the drawing context's @deftech{alignment scale}, which determines
  how drawing coordinates and pen widths are adjusted for unsmoothed or
- aligned drawing (see @method[dc<%> set-smoothing]).
+ aligned drawing (see @method[dc<%> set-smoothing]).}
+  设置图形上下文的@deftech{对齐比例}，该比例决定如何为未平滑或对齐的图形调整图形坐标和笔宽（请参见@method[dc<%> set-smoothing]）。
 
-The default @tech{alignment scale} is @racket[1.0], which means that
- drawing coordinates and pen sizes are aligned to integer values.
+@;{The default @tech{alignment scale} is @racket[1.0], which means that
+ drawing coordinates and pen sizes are aligned to integer values.}
+  默认的@tech{对齐比例}为1.0，这意味着图形坐标和笔大小与整数值对齐。
 
-An @tech{alignment scale} of @racket[2.0] aligns drawing coordinates
+@;{An @tech{alignment scale} of @racket[2.0] aligns drawing coordinates
  to half-integer values. A value of @racket[2.0] could be suitable for
  a @racket[bitmap-dc%] whose destination is a bitmap with a
  @tech{backing scale} of @racket[2.0], since half-integer values
@@ -984,7 +1011,8 @@ An @tech{alignment scale} of @racket[2.0] aligns drawing coordinates
  backing scale of @racket[2.0], however, an alignment scale of
  @racket[1.0] may be desirable to maintain consistency with drawing
  contexts that have a backing scale and alignment scale of
- @racket[1.0].
+ @racket[1.0].}
+  @racket[2.0]的@tech{对齐比例}将图形坐标与半整数值对齐。@racket[2.0]的值可能适用于目标是@tech{支持比例（backing scale）}为@racket[2.0]的位图的@racket[bitmap-dc%]，因为半整数值对应于像素边界。然而，即使目标上下文的支持比例为@racket[2.0]，也可能需要@racket[1.0]的对齐比例来保持与支持比例和对齐比例为@racket[1.0]的图形上下文的一致性。
 
 @history[#:added "1.1"]}
 
@@ -992,12 +1020,13 @@ An @tech{alignment scale} of @racket[2.0] aligns drawing coordinates
 @defmethod[(set-alpha [opacity (real-in 0 1)])
            void?]{
 
-Determines the opacity of drawing. A value of @racket[0.0] corresponds
+@;{Determines the opacity of drawing. A value of @racket[0.0] corresponds
 to completely transparent (i.e., invisible) drawing, and @racket[1.0]
 corresponds to completely opaque drawing. For intermediate values,
 drawing is blended with the existing content of the drawing context.
 A color (e.g. for a brush) also has an alpha value; it is combined
 with the drawing context's alpha by multiplying.}
+ 确定绘图的不透明度。值@racket[0.0]对应于完全透明（即不可见）的绘图，@racket[1.0]对应于完全不透明的绘图。对于中间值，图形与图形上下文的现有内容混合。颜色（例如，用于画笔）也具有alpha值；它通过乘以与绘图上下文的alpha相结合。}
 
 
 @defmethod*[([(set-background [color (is-a?/c color%)])
@@ -1005,10 +1034,11 @@ with the drawing context's alpha by multiplying.}
              [(set-background [color-name string?])
               void?])]{
 
-Sets the background color for drawing in this object (e.g., using
+@;{Sets the background color for drawing in this object (e.g., using
 @method[dc<%> clear] or using a stippled @racket[brush%] with the mode
 @racket['opaque]). For monochrome drawing, all non-black colors are
-treated as white.
+treated as white.}
+  设置此对象中绘图的背景色（例如，使用@method[dc<%> clear]或使用@racket['opaque]模式的点画@racket[brush%]）。对于单色绘图，所有非黑色的颜色都被视为白色。
 
 }
 
@@ -1045,11 +1075,14 @@ treated as white.
                               [height (and/c real? (not/c negative?))])
            void?]{
 
-Sets the clipping region to a rectangular region.
+@;{Sets the clipping region to a rectangular region.}
+  将剪切区域设置为矩形区域。
 
-See also @method[dc<%> set-clipping-region] and @method[dc<%>
-get-clipping-region].
-
+@;{See also @method[dc<%> set-clipping-region] and @method[dc<%>
+get-clipping-region].}
+另请参见@method[dc<%> set-clipping-region]和@method[dc<%>
+get-clipping-region]。
+  
 @|DrawSizeNote|
 
 }
@@ -1156,12 +1189,14 @@ get-clipping-region].
 
 @defmethod[(set-rotation [angle real?]) void?]{
 
-Set the rotation of logical coordinates in radians to device
+@;{Set the rotation of logical coordinates in radians to device
 coordinates. Rotation applies after the initial transformation matrix,
-origin offset, and scaling.
+origin offset, and scaling.}
+将以弧度表示的逻辑坐标旋转设置为设备坐标。旋转应用于初始变换矩阵、原点偏移和缩放之后。
 
-See also @method[dc<%> rotate], which adds a rotation to the current
- transformation, instead of changing the transformation composition.
+@;{See also @method[dc<%> rotate], which adds a rotation to the current
+ transformation, instead of changing the transformation composition.}
+另请参见@method[dc<%> rotate]，它将旋转添加到当前转换，而不是更改转换组合。
 
 @|DrawSizeNote|
 
@@ -1171,14 +1206,16 @@ See also @method[dc<%> rotate], which adds a rotation to the current
                       [y-scale real?])
            void?]{
 
-Sets a scaling factor that maps logical coordinates to device
+@;{Sets a scaling factor that maps logical coordinates to device
  coordinates.  Scaling applies after the initial transformation matrix
  and origin offset, but before rotation. Negative scaling factors have
- the effect of flipping.
-
-See also @method[dc<%> scale], which adds a scale to the current
+ the effect of flipping.}
+设置将逻辑坐标映射到设备坐标的比例因子。缩放应用于初始变换矩阵和原点偏移之后，但在旋转之前。负比例因子具有翻转效果。
+  
+@;{See also @method[dc<%> scale], which adds a scale to the current
  transformation, instead of changing the transformation composition in
- the middle.
+ the middle.}
+ 也可以参见@method[dc<%> scale]，它增加了当前转换的比例，而不是改变中间的变换成分。 
 
 @|DrawSizeNote|
 
@@ -1187,24 +1224,27 @@ See also @method[dc<%> scale], which adds a scale to the current
 @defmethod[(set-smoothing [mode (or/c 'unsmoothed 'smoothed 'aligned)])
            void?]{
 
-Enables or disables anti-aliased smoothing for drawing. (Text
+@;{Enables or disables anti-aliased smoothing for drawing. (Text
  smoothing is not affected by this method, and is instead controlled
- through the @racket[font%] object.)
+ through the @racket[font%] object.)}
+  为绘图启用或禁用抗锯齿平滑。（文本平滑不受此方法的影响，而是通过@racket[font%]对象进行控制。）
 
-The smoothing mode is either @racket['unsmoothed], @racket['smoothed],
+@;{The smoothing mode is either @racket['unsmoothed], @racket['smoothed],
  or @racket['aligned]. Both @racket['aligned] and @racket['smoothed]
  are smoothing modes that enable anti-aliasing, while both
  @racket['unsmoothed] and @racket['aligned] adjust drawing coordinates
  to match pixel boundaries. For most applications that draw to the
- screen or bitmaps, @racket['aligned] mode is the best choice.
+ screen or bitmaps, @racket['aligned] mode is the best choice.}
+平滑模式可以是@racket['unsmoothed]、@racket['smoothed]或@racket['aligned]。@racket['aligned]和@racket['smoothed]都是启用抗锯齿的平滑模式，而 @racket['unsmoothed]和@racket['aligned]都会调整绘图坐标以匹配像素边界。对于大多数绘制到屏幕或位图的应用程序来说，@racket['aligned]是最佳选择。
 
-Conceptually, integer drawing coordinates correspond to the boundary
+@;{Conceptually, integer drawing coordinates correspond to the boundary
  between pixels, and pen-based drawing is centered over a given line
  or curve. Thus, drawing with pen width @racket[1] from @math{(0, 10)}
  to @math{(10, 10)} in @racket['smoothed] mode draws a 2-pixel wide
- line with @math{50%} opacity.
+ line with @math{50%} opacity.}
+  从概念上讲，整数绘图坐标对应于像素之间的边界，基于笔的绘图在给定的直线或曲线上居中。因此，在@racket['smoothed]模式下，使用笔宽@racket[1]从@math{(0, 10)}到@math{(10, 10)}绘制2像素宽的线条，不透明度为@math{50%}。
 
-In @racket['unsmoothed] and @racket['aligned] modes, drawing
+@;{In @racket['unsmoothed] and @racket['aligned] modes, drawing
  coordinates are truncated based on the @tech{alignment scale} of the
  drawing context. Specifically, when the alignment scale is 1.0,
  drawing coordinates are truncated to integer coordinates. More
@@ -1218,6 +1258,8 @@ In @racket['unsmoothed] and @racket['aligned] modes, drawing
  draw-ellipse], @method[dc<%> draw-rounded-rectangle], and
  @method[dc<%> draw-arc], the given width and height are each
  decreased by @math{1.0} divided by the @tech{alignment scale}.}
+ 在@racket['unsmoothed]和@racket['aligned]模式中，图形坐标根据图形上下文的@tech{对齐比例（alignment scale）}被截断。具体来说，当对齐比例为1.0时，图形坐标将被截断为整数坐标。更一般地说，绘图坐标移向零，这样结果乘以@tech{对齐比例}就成了积分。对于线条绘制，坐标将根据笔宽和对齐比例进一步移动，其中移动对应于笔宽的一半（减少到一个值，使其乘以对齐比例乘以2产生一个整数）。此外，对于通过@method[dc<%> draw-rectangle]、@method[dc<%>
+ draw-ellipse]、@method[dc<%> draw-rounded-rectangle]和 @method[dc<%> draw-arc]绘制的笔，给定的宽度和高度均除以对齐比例后减小@math{1.0}。}
 
 
 @defmethod*[([(set-text-background [color (is-a?/c color%)])
@@ -1225,12 +1267,14 @@ In @racket['unsmoothed] and @racket['aligned] modes, drawing
              [(set-text-background [color-name string?])
               void?])]{
 
-Sets the current text background color for this object. The text
+@;{Sets the current text background color for this object. The text
  background color is painted behind text that is drawn with
  @method[dc<%> draw-text], but only for the @racket['solid] text mode
- (see @method[dc<%> set-text-mode]).
+ (see @method[dc<%> set-text-mode]).}
+  设置此对象的当前文本背景色。文本背景色绘制在使用@method[dc<%> draw-text]绘制的文本后面，但仅适用于 @racket['solid]文本模式（请参见@method[dc<%> set-text-mode]）。
 
-For monochrome drawing, all non-white colors are treated as black.
+@;{For monochrome drawing, all non-white colors are treated as black.}
+  对于单色绘图，所有非白色的颜色都被视为黑色。
 
 }
 
@@ -1239,29 +1283,33 @@ For monochrome drawing, all non-white colors are treated as black.
              [(set-text-foreground [color-name string?])
               void?])]{
 
-Sets the current text foreground color for this object, used for
+@;{Sets the current text foreground color for this object, used for
  drawing text with
-@method[dc<%> draw-text].
+@method[dc<%> draw-text].}
+  设置此对象的当前文本前景色，用于绘制带@method[dc<%> draw-text]的文本。
 
-For monochrome drawing, all non-black colors are treated as
- white.
+@;{For monochrome drawing, all non-black colors are treated as
+ white.}
+  对于单色绘图，所有非黑色的颜色都被视为白色。
 
 }
 
 @defmethod[(set-text-mode [mode (or/c 'solid 'transparent)])
            void?]{
 
-Determines how text is drawn:
+@;{Determines how text is drawn:}
+  确定文本的绘制方式：
 
 @itemize[
 
- @item{@racket['solid] --- Before text is drawn, the destination area
+ @item{@racket['solid] @;{--- Before text is drawn, the destination area
        is filled with the text background color (see @method[dc<%>
-       set-text-background]).}
+       set-text-background]).}——在绘制文本之前，目标区域将填充文本背景色（请参见@method[dc<%>
+       set-text-background]）。}
 
- @item{@racket['transparent] --- Text is drawn directly over any
+ @item{@racket['transparent] @;{--- Text is drawn directly over any
        existing image in the destination, as if overlaying text
-       written on transparent film.}
+       written on transparent film.}——文本直接绘制在目标中的任何现有图像上，就像覆盖在透明胶片上的文本一样。}
 
 ]
 
@@ -1273,33 +1321,39 @@ Determines how text is drawn:
                          real? real? real? real? real?)])
            void?]{
 
-Sets the draw context's transformation. See @method[dc<%>
+@;{Sets the draw context's transformation. See @method[dc<%>
 get-transformation] for information about @racket[t].}
+ 设置绘图上下文的转换。有关@racket[t]的信息，请参见@method[dc<%>
+get-transformation]。}
 
 
 @defmethod[(start-doc [message string?])
            void?]{
 
-Starts a document, relevant only when drawing to a printer,
+@;{Starts a document, relevant only when drawing to a printer,
  PostScript, PDF, or SVG device.  For some
  platforms, the @racket[message] string is displayed in a dialog until
- @method[dc<%> end-doc] is called.
+ @method[dc<%> end-doc] is called.}
+  仅在绘制到打印机、PostScript、PDF或SVG设备关联时启动文档。对于某些平台，@racket[message]字符串将显示在对话框中，直到调用@method[dc<%> end-doc]。
 
-For relevant devices, an exception is raised if
+@;{For relevant devices, an exception is raised if
  @method[dc<%> start-doc] has been called already (even if @method[dc<%>
  end-doc] has been called as well). Furthermore, drawing methods raise
  an exception if not called while a page is active as determined by
- @method[dc<%> start-doc] and @method[dc<%> start-page].
+ @method[dc<%> start-doc] and @method[dc<%> start-page].}
+对于相关设备，如果已经调用了@method[dc<%> start-doc]（即使也调用了@method[dc<%>
+ end-doc]），则会引发异常。此外，绘图方法在页面处于活动状态时（由@method[dc<%> start-doc]和@method[dc<%> start-page]确定）如果不调用，则会引发异常。
 
 }
 
 @defmethod[(start-page)
            void?]{
 
-Starts a page, relevant only when drawing to a printer, PostScript,
- SVG, or PDF device.
+@;{Starts a page, relevant only when drawing to a printer, PostScript,
+ SVG, or PDF device.}
+启动一个页面，仅当绘图到打印机、PostScript、SVG或PDF设备时才相关。
 
-Relevant devices, an exception is raised if
+@;{Relevant devices, an exception is raised if
  @method[dc<%> start-page] is called when a page is already started, or when
  @method[dc<%> start-doc] has not been called, or when @method[dc<%>
  end-doc] has been called already. In addition, in the case of
@@ -1307,43 +1361,49 @@ Relevant devices, an exception is raised if
  multiple pages, so calling @racket[start-page] a second time for a
  @racket[post-script-dc%] instance raises an exception; to create
  PostScript output with multiple pages, supply @racket[#f] as the
- @racket[as-eps] initialization argument for @racket[post-script-dc%].
-
+ @racket[as-eps] initialization argument for @racket[post-script-dc%].}
+关联设备，如果在已启动页、或未调用@method[dc<%> start-doc]或已调用@method[dc<%>
+ end-doc]时调用@method[dc<%> start-page]，则会引发异常。此外，在PostScript输出的情况下，封装PostScript（EPS）不能包含多个页面，因此对@racket[post-script-dc%]实例再次调用@racket[start-page]会引发异常；要创建多个页面的PostScript输出，请提供@racket[#f]作为@racket[post-script-dc%]的@racket[as-eps]初始化参数。
 }
 
 
 @defmethod[(suspend-flush) void?]{
 
-Calls the @xmethod[canvas<%> suspend-flush] method for
+@;{Calls the @xmethod[canvas<%> suspend-flush] method for
 @racket[canvas<%>] output, and has no effect for other kinds of
 drawing contexts.}
+ 调用@racket[canvas<%>]输出的@xmethod[canvas<%> suspend-flush]方法，对其它类型的绘图上下文无效。}
 
 
 @defmethod[(transform [m (vector/c real? real? real? real? real? real?)])
            void?]{
 
-Adds a transformation by @racket[m] to the drawing context's current
-transformation. 
+@;{Adds a transformation by @racket[m] to the drawing context's current
+transformation. }
+将 @racket[m]转换添加到绘图上下文的当前转换中。
 
-See @method[dc<%> get-initial-matrix] for information on the matrix as
- represented by a vector @racket[m].
+@;{See @method[dc<%> get-initial-matrix] for information on the matrix as
+ represented by a vector @racket[m].}
+有关用向量@racket[m]表示的矩阵的信息，请参见@method[dc<%> get-initial-matrix]。
 
-Afterward, the drawing context's transformation is represented in the
+@;{Afterward, the drawing context's transformation is represented in the
 initial transformation matrix, and the separate origin, scale, and
-rotation settings have their identity values.
-
+rotation settings have their identity values.}
+然后，图形上下文的转换在初始转换矩阵中表示，单独的原点、比例和旋转设置具有它们的标识值。
 }
 
 @defmethod[(translate [dx real?]
                       [dy real?])
            void?]{
 
-Adds a translation of @racket[dx] in the X-direction and @racket[dy] in
-the Y-direction to the drawing context's current transformation.
-
-Afterward, the drawing context's transformation is represented in the
+@;{Adds a translation of @racket[dx] in the X-direction and @racket[dy] in
+the Y-direction to the drawing context's current transformation.}
+将X方向的@racket[dx]和Y方向的@racket[dy]的转换添加到绘图上下文的当前转换中。
+  
+@;{Afterward, the drawing context's transformation is represented in the
 initial transformation matrix, and the separate origin, scale, and
-rotation settings have their identity values.
+rotation settings have their identity values.}
+ 然后，图形上下文的转换在初始转换矩阵中表示，单独的原点、比例和旋转设置具有它们的标识值。 
 
 }
 
@@ -1352,9 +1412,10 @@ rotation settings have their identity values.
                       [result (is-a?/c color%)])
            void?]{
 
-Determines the actual color used for drawing requests with the given
+@;{Determines the actual color used for drawing requests with the given
  color. The @racket[result] color is set to the RGB values that are
  actually produced for this drawing context to draw the color
- @racket[try].
+ @racket[try].}
+  确定用于绘制具有给定颜色的请求的实际颜色。@racket[result]颜色设置为实际为此绘图上下文生成的RGB值，以绘制颜色@racket[try]。
 
 }}
