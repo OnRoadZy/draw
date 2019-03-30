@@ -3,7 +3,7 @@
  color, or color with an alpha channel. See also <span class="RktSym"><a href="Drawing_Functions.html#%28def._%28%28lib._racket%2Fdraw..rkt%29._make-bitmap%29%29" class="RktValLink" data-pltdoc="x">make-bitmap</a></span>,
  <span class="RktSym"><a href="Drawing_Functions.html#%28def._%28%28lib._racket%2Fdraw..rkt%29._make-platform-bitmap%29%29" class="RktValLink" data-pltdoc="x">make-platform-bitmap</a></span>, <span class="RktSym"><span class="badlink"><span class="RktValLink">make-screen-bitmap</span></span></span> (from
  <font class="badlink"><span class="RktModLink"><span class="RktSym">racket/gui/base</span></span></font>), make-bitmap in <span class="RktSym"><span class="badlink"><span class="RktValLink">canvas%</span></span></span> (from
- <font class="badlink"><span class="RktModLink"><span class="RktSym">racket/gui/base</span></span></font>), and <a href="overview.html#%28part._.Portability%29" data-pltdoc="x">Portability and Bitmap Variants</a>.</div></p><p>A bitmap has a <a name="(tech._backing._scale)"></a><span style="font-style: italic">backing scale</span>, which is the number of pixels
+ <font class="badlink"><span class="RktModLink"><span class="RktSym">racket/gui/base</span></span></font>), and <a href="overview.html#%28part._.Portability%29" data-pltdoc="x">&#21487;&#31227;&#26893;&#24615;&#21644;&#20301;&#22270;&#21464;&#20307;</a>.</div></p><p>A bitmap has a <a name="(tech._backing._scale)"></a><span style="font-style: italic">backing scale</span>, which is the number of pixels
  that correspond to a drawing unit for the bitmap, either when the
  bitmap is used as a target for drawing or when the bitmap is drawn
  into another context.  For example, on Mac OS when the main monitor
@@ -16,7 +16,7 @@
  they are also preferred over using <span class="RktSym"><span class="badlink"><span class="RktValLink">make-object</span></span></span>
  with <span class="RktSym"><a href="" class="RktValLink" data-pltdoc="x">bitmap%</a></span> directly, because the functions are
  less overloaded and they enable alpha channels by default.
- See also <a href="overview.html#%28part._.Portability%29" data-pltdoc="x">Portability and Bitmap Variants</a>.</div></p><p>When <span class="RktVar">width</span> and <span class="RktVar">height</span> are provided: Creates a new
+ See also <a href="overview.html#%28part._.Portability%29" data-pltdoc="x">&#21487;&#31227;&#26893;&#24615;&#21644;&#20301;&#22270;&#21464;&#20307;</a>.</div></p><p>When <span class="RktVar">width</span> and <span class="RktVar">height</span> are provided: Creates a new
  bitmap. If <span class="RktVar">monochrome?</span> is true, the bitmap is monochrome; if
  <span class="RktVar">monochrome?</span> is <span class="RktVal">#f</span> and <span class="RktVar">alpha?</span> is true, the
  bitmap has an alpha channel; otherwise, the bitmap is color without

@@ -216,9 +216,10 @@ result for a 1-pixel black pen:}
 
 @centered[@interaction-eval-show[#:eval draw-eval (line-bitmap 'smoothed)]]
 
-but @racket['aligned] mode shifts drawing coordinates to make the pen
+@;{but @racket['aligned] mode shifts drawing coordinates to make the pen
 fall on whole pixels, so a 1-pixel black pen draws a single line of
-pixels:
+pixels:}
+但是@racket['aligned]模式会移动绘图坐标，使笔落在整个像素上，因此一支1像素的黑色笔绘制一行像素：
 
 @centered[@interaction-eval-show[#:eval draw-eval (line-bitmap 'aligned)]]
 
@@ -591,7 +592,6 @@ center of a box:}
 
 @centered{@interaction-eval-show[#:eval draw-eval (copy-bitmap text-target)]}
 
-
 @; ------------------------------------------------------------
 @;{@section{Alpha Channels and Alpha Blending}}
 @section{alpha通道和alpha混合}
@@ -617,14 +617,15 @@ transferred, and the background is left alone:}
 
 @centered{@interaction-eval-show[#:eval draw-eval (copy-bitmap new-target)]}
 
-The information about which pixels of a bitmap are drawn (as opposed
+@;{The information about which pixels of a bitmap are drawn (as opposed
 to ``nothing'') is the bitmap's @deftech{alpha channel}. Not all
 @tech{DC}s keep an alpha channel, but bitmaps created with
 @racket[make-bitmap] keep an alpha channel by default. Bitmaps loaded
 with @racket[read-bitmap] preserve transparency in the image file
-through the bitmap's alpha channel.
+through the bitmap's alpha channel.}
+关于位图的像素绘制的信息（而不是“无”）是位图的@deftech{alpha通道（alpha channel）}。不是所有的@tech{DC}都保持alpha通道，但默认情况下，使用@racket[make-bitmap]创建的位图保持alpha通道。使用读取位图加载的位图通过位图的alpha通道保持图像文件的透明度。
 
-An alpha channel isn't all or nothing. When the edges text is
+@;{An alpha channel isn't all or nothing. When the edges text is
 anti-aliased by @racket[draw-text], for example, the pixels are
 partially transparent. When the pixels are transferred to another
 @tech{DC}, the partially transparent pixel is blended with the target
@@ -632,12 +633,14 @@ pixel in a process called @deftech{alpha blending}. Furthermore, a
 @tech{DC} has an alpha value that is applied to all drawing
 operations; an alpha value of @racket[1.0] corresponds to solid
 drawing, an alpha value of @racket[0.0] makes the drawing have no
-effect, and values in between make the drawing translucent.
+effect, and values in between make the drawing translucent.}
+alpha通道不是全部或全部。例如，当边文本被@racket[draw-text]消除混叠时，像素部分透明。当像素转移到另一个@tech{DC}时，部分透明的像素在一个称为@deftech{alpha混合（alpha blending）}的过程中与目标像素混合。此外，@tech{DC}具有应用于所有绘图操作的alpha值；alpha值@racket[1.0]对应于实体绘图，alpha值@racket[0.0]使绘图无效，并且介于两者之间的值使绘图透明。
 
-For example, setting the @tech{DC}'s alpha to @racket[0.25] before
+@;{For example, setting the @tech{DC}'s alpha to @racket[0.25] before
 calling @racket[draw-bitmap] causes the blue and black of the ``Hello,
 World!'' bitmap to be quarter strength as it is blended with the
-destination image:
+destination image:}
+例如，在调用@racket[draw-bitmap]之前，将@tech{DC}的alpha设置为@racket[0.25]会导致“你好，世界！“位图与目标图像混合时的四分之一强度：
 
 @racketblock+eval[
 #:eval draw-eval
@@ -650,16 +653,19 @@ destination image:
 @centered{@interaction-eval-show[#:eval draw-eval (copy-bitmap new-target)]}
 
 @; ------------------------------------------------------------
-@section{Clipping}
+@;{@section{Clipping}}
+@section{剪辑}
 
-In addition to tempering the opacity of drawing operations, a
+@;{In addition to tempering the opacity of drawing operations, a
 @tech{DC} has a @deftech{clipping region} that constrains all drawing to
 inside the region. In the simplest case, a clipping region corresponds
 to a closed path, but it can also be the union, intersection,
-subtraction, or exclusive-or of two paths.
+subtraction, or exclusive-or of two paths.}
+除了缓和绘图操作的不透明度之外，@tech{DC}还有一个@deftech{剪切区域（clipping region）}，它将所有绘图限制在该区域内。在最简单的情况下，剪切区域对应于闭合路径，但它也可以是并集、交集、减法或排斥或两条路径中的一条。
 
-For example, a clipping region could be set to three circles to clip
-the drawing of a rectangle (with the 0.25 alpha still in effect):
+@;{For example, a clipping region could be set to three circles to clip
+the drawing of a rectangle (with the 0.25 alpha still in effect):}
+例如，可以将剪切区域设置为三个圆以剪切矩形的图形（0.25 alpha仍然有效）：
 
 @racketblock+eval[
 #:eval draw-eval
@@ -676,20 +682,22 @@ the drawing of a rectangle (with the 0.25 alpha still in effect):
 
 @centered{@interaction-eval-show[#:eval draw-eval (copy-bitmap new-target)]}
 
-The clipping region can be viewed as a convenient alternative to path
+@;{The clipping region can be viewed as a convenient alternative to path
 filling or drawing with stipples. Conversely, stippled drawing can be
 viewed as a convenience alternative to clipping repeated calls of
-@racket[draw-bitmap].
+@racket[draw-bitmap].}
+裁剪区域可以看作是一个方便的替代路径填充或绘制点画。相反，点画可以被看作是一种方便的替代方法，可以剪切重复调用的@racket[draw-bitmap]。
 
-Combining regions with @racket[pen%] objects that have gradients, however,
+@;{Combining regions with @racket[pen%] objects that have gradients, however,
 is more than just a convenience, as it allows us to draw shapes in combinations
 we could not otherwise draw. To illustrate, here is some code that draws
-text with its reflection below it.
+text with its reflection below it.}
+但是，将区域与具有渐变的@racket[pen%]对象组合不仅仅是一种方便，因为它允许我们以其他方式无法绘制的组合方式绘制形状。为了说明这一点，这里有一些代码用它下面的反射来绘制文本。
 
 @racketblock+eval[
 #:eval draw-eval
-(code:comment "First compute the size of the text we're going to draw,")
-(code:comment "using a small bitmap that we never draw into.")
+(code:comment @;{"First compute the size of the text we're going to draw,"}"首先计算要绘制的文本的大小，")
+(code:comment @;{"using a small bitmap that we never draw into."}"使用我们从未绘制过的小位图。")
 (define bdc (new bitmap-dc% [bitmap (make-bitmap 1 1)]))
 (define str "Racketeers, ho!")
 (define the-font (make-font #:size 24 #:family 'swiss 
@@ -700,28 +708,32 @@ text with its reflection below it.
     (values (inexact->exact (ceiling tw))
             (inexact->exact (ceiling th)))))
 
-(code:comment "Now we can create a correctly sized bitmap to")
-(code:comment "actually draw into and enable smoothing.")
+(code:comment @;{"Now we can create a correctly sized bitmap to"}"现在，我们可以创建一个大小正确的位图")
+(code:comment @;{"actually draw into and enable smoothing."}"来实际绘制并启用平滑。")
 (send bdc set-bitmap (make-bitmap tw (* th 2)))
 (send bdc set-smoothing 'smoothed)
 
-(code:comment "next, build a path that contains the outline of the text")
+(code:comment @;{"next, build a path that contains the outline of the text"}"接下来，构建包含文本大纲的路径")
 (define upper-path (new dc-path%))
 (send upper-path text-outline the-font str 0 0)
 
-(code:comment "next, build a path that contains the mirror image")
-(code:comment "outline of the text")
+(code:comment @;{"next, build a path that contains the mirror image"}"接下来，构建包含文本镜像轮廓的路径")
+(code:comment @;{"outline of the text"}"轮廓的路径")
 (define lower-path (new dc-path%))
 (send lower-path text-outline the-font str 0 0)
 (send lower-path transform (vector 1 0 0 -1 0 0))
 (send lower-path translate 0 (* 2 th))
 
-(code:comment "This helper accepts a path, sets the clipping region")
+ @;{(code:comment "This helper accepts a path, sets the clipping region")
 (code:comment "of bdc to be the path (but in region form), and then")
 (code:comment "draws a big rectangle over the whole bitmap.")
 (code:comment "The brush will be set differently before each call to")
 (code:comment "draw-path, in order to draw the text and then to draw")
-(code:comment "the shadow.")
+(code:comment "the shadow.")}
+(code:comment "此助手接受路径，将bdc的剪切区域设置为路径（但以区域形式），")
+(code:comment "然后在整个位图上绘制一个大矩形。在每次调用绘制路径之前，将对")
+(code:comment "画笔进行不同的设置，以便绘制文本，然后绘制阴影。")
+
 (define (draw-path path)
   (define rgn (new region%))
   (send rgn set-path path)
@@ -730,13 +742,15 @@ text with its reflection below it.
   (send bdc draw-rectangle 0 0 tw (* th 2))
   (send bdc set-clipping-region #f))
 
-(code:comment "Now we just draw the upper-path with a solid brush")
+(code:comment @;{"Now we just draw the upper-path with a solid brush"}"现在我们用实心画笔绘制上一条路径")
 (send bdc set-brush "black" 'solid)
 (draw-path upper-path)
 
-(code:comment "To draw the shadow, we set up a brush that has a")
+@;{(code:comment "To draw the shadow, we set up a brush that has a")
 (code:comment "linear gradient over the portion of the bitmap")
-(code:comment "where the shadow goes")
+(code:comment "where the shadow goes")}
+(code:comment "为了绘制阴影，我们在阴影所在的位图部分")
+(code:comment "设置了一个具有线性渐变的画笔。")
 (define stops
   (list (list 0 (make-color 0 0 0 0.4))
         (list 1 (make-color 0 0 0 0.0))))
@@ -752,82 +766,96 @@ text with its reflection below it.
 (draw-path lower-path)                 
 ]
 
-And now the bitmap in @racket[bdc] has ``Racketeers, ho!'' with
-a mirrored version below it.
+@;{And now the bitmap in @racket[bdc] has ``Racketeers, ho!'' with
+a mirrored version below it.}
+现在，@racket[bdc]中的位图有“racketeers，ho！”。具有它下面的镜像版本。
 
 @centered{@interaction-eval-show[#:eval draw-eval (copy-bitmap (send bdc get-bitmap))]}
 
 
 @; ------------------------------------------------------------
-@section[#:tag "Portability"]{Portability and Bitmap Variants}
+@;{@section[#:tag "Portability"]{Portability and Bitmap Variants}}
+@section[#:tag "Portability"]{可移植性和位图变体}
 
-Drawing effects are not completely portable across platforms, across
+@;{Drawing effects are not completely portable across platforms, across
 different classes that implement @racket[dc<%>], or different
 kinds of bitmaps. Fonts and text, especially, can vary across
 platforms and types of @tech{DC}, but so can the precise set of pixels
-touched by drawing a line.
+touched by drawing a line.}
+绘图效果不能完全移植到跨平台、跨实现@racket[dc<%>]的不同类或不同类型的位图。字体和文本，尤其是，可以在不同的平台和@tech{DC}类型之间变化，但也可以通过绘制一条线触摸到精确的像素集。
 
-Different kinds of bitmaps can produce different results:
+@;{Different kinds of bitmaps can produce different results:}
+不同类型的位图可以产生不同的结果：
 
 @itemlist[
 
- @item{Drawing to a bitmap produced by @racket[make-bitmap] (or
+ @item{@;{Drawing to a bitmap produced by @racket[make-bitmap] (or
        instantiated from @racket[bitmap%]) draws in the most
        consistent way across platforms.}
+ 绘制由@racket[make-bitmap]（或从@racket[bitmap%]实例化）生成的位图时，以最一致的方式跨平台绘制。}
 
- @item{Drawing to a bitmap produced by @racket[make-platform-bitmap]
+ @item{@;{Drawing to a bitmap produced by @racket[make-platform-bitmap]
        uses platform-specific drawing operations as much as possible.
        On Windows, however, a bitmap produced by
        @racket[make-platform-bitmap] has no alpha channel, and it uses
        more constrained resources than one produced by
-       @racket[make-bitmap] (due to a system-wide, per-process GDI limit).
+       @racket[make-bitmap] (due to a system-wide, per-process GDI limit).}
+         @racket[make-platform-bitmap]生成的位图的绘制尽可能使用平台特定的绘制操作。然而，在Windows上，由@racket[make-platform-bitmap]生成的位图没有alpha通道，它使用的资源比@racket[make-bitmap]生成的资源更多（由于系统范围内的每个进程的GDI限制）。
 
-       As an example of platform-specific difference, text is smoothed
+       @;{As an example of platform-specific difference, text is smoothed
        by default with sub-pixel anti-aliasing on Mac OS, while text
        smoothing in a @racket[make-bitmap] result uses only grays.
        Line or curve drawing may touch different pixels than in a
        bitmap produced by @racket[make-bitmap], and bitmap scaling may
-       differ.
+       differ.}
+         作为平台特定差异的一个示例，文本在Mac OS上默认使用亚像素消除混叠进行平滑处理，而@racket[make-bitmap]结果中的文本平滑处理仅使用灰色。线条或曲线绘图可能与“生成位图”生成的位图中的像素不同，并且位图缩放可能有所不同。
 
-       A possible approach to dealing with the GDI limit under Windows
+       @;{A possible approach to dealing with the GDI limit under Windows
        is to draw into the result of a @racket[make-platform-bitmap]
        and then copy the contents of the drawing into the result of a
        @racket[make-bitmap]. This approach preserves the drawing
        results of @racket[make-platform-bitmap], but it retains
        constrained resources only during the drawing process.}
+ 在Windows下处理GDI限制的一种可能方法是将 @racket[make-platform-bitmap]的结果绘制出来，然后将绘图的内容复制到@racket[make-bitmap]的结果中。该方法保留了@racket[make-platform-bitmap]的绘制结果，但只保留了绘制过程中受限的资源。}
 
- @item{Drawing to a bitmap produced by @racket[make-screen-bitmap]
+ @item{@;{Drawing to a bitmap produced by @racket[make-screen-bitmap]
        from @racketmodname[racket/gui/base] uses the same
        platform-specific drawing operations as drawing into a
        @racket[canvas%] instance. A bitmap produced by
        @racket[make-screen-bitmap] uses the same platform-specific
        drawing as @racket[make-platform-bitmap] on Windows or Mac OS, but possibly scaled, and it may be scaled or sensitive to the X11
-       server on Unix.
+       server on Unix.}
+         从@racketmodname[racket/gui/base]绘制到@racket[make-screen-bitmap]生成的位图使用与绘制到@racket[canvas%]实例相同的平台特定绘图操作。@racket[make-screen-bitmap]生成的位图使用与Windows或Mac OS上@racket[make-platform-bitmap]相同的特定于平台的图形，但可能是按比例缩放的，并且可能对Unix上的x11服务器进行缩放或敏感。
  
-       On Mac OS, when the main screen is in Retina mode (at the
+       @;{On Mac OS, when the main screen is in Retina mode (at the
        time that the bitmap is created), the bitmap is also internally
        scaled so that one drawing unit uses two pixels. Similarly, on
        Windows or Unix, when the main display's text scale is configured at
        the operating-system level (see @secref[#:doc '(lib
        "scribblings/gui/gui.scrbl") "display-resolution"]), the bitmap
        is internally scaled, where common configurations map a drawing
-       unit to @math{1.25}, @math{1.5}, or @math{2} pixels.
+       unit to @math{1.25}, @math{1.5}, or @math{2} pixels.}
+         在Mac OS上，当主屏幕处于视网膜模式（创建位图时），位图也会进行内部缩放，以便一个绘图单元使用两个像素。同样，在Windows或Unix上，当主显示器的文本比例在操作系统级别配置时（请参见@secref[#:doc '(lib
+       "scribblings/gui/gui.scrbl") "显示分辨率（display-resolution）"]），位图将进行内部缩放，其中常用配置将绘图单元映射到@math{1.25}、@math{1.5}或@math{2}像素。
 
-       Use @racket[make-screen-bitmap] when drawing to a bitmap as an
+       @;{Use @racket[make-screen-bitmap] when drawing to a bitmap as an
        offscreen buffer before transferring an image to the screen, or
        when consistency with screen drawing is needed for some other
        reason.}
+ 在将图像传输到屏幕之前，或者由于某些其他原因需要与屏幕绘图保持一致时，使用@racket[make-screen-bitmap]作为屏幕外缓冲区。}
 
- @item{A bitmap produced by @xmethod[canvas% make-bitmap] from
+ @item{@;{A bitmap produced by @xmethod[canvas% make-bitmap] from
        @racketmodname[racket/gui/base] is like a bitmap from
        @racket[make-screen-bitmap], but on Mac OS, the bitmap is
        optimized for drawing to the screen (by taking advantage of
        system APIs that can, in turn, take advantage of graphics
-       hardware).
+       hardware).}
+         由@racketmodname[racket/gui/base]的@xmethod[canvas% make-bitmap]在画布中生成的位图与@racket[make-screen-bitmap]的位图类似，但在Mac OS上，该位图针对绘制到屏幕进行了优化（通过利用系统API，反过来又可以利用图形硬件）。
 
-       Use @xmethod[canvas% make-bitmap] for similar purposes
+       @;{Use @xmethod[canvas% make-bitmap] for similar purposes
        as @racket[make-screen-bitmap], particularly when the bitmap
        will be drawn later to a known target canvas.}
+ 将@xmethod[canvas% make-bitmap]用于与@racket[make-screen-bitmap]类似的用途，特别是在稍后将位图绘制到已知目标画布时。}
 
 ]
 
