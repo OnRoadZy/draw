@@ -6,14 +6,15 @@
 
 @defclass/title[radial-gradient% object% ()]{
 
-A @deftech{radial gradient} is used with a @racket[brush%] to fill
+@;{A @deftech{radial gradient} is used with a @racket[brush%] to fill
  areas with smooth color transitions.
  Color transitions are based on two circles and the sequence of
  circles that ``morph'' from the starting circle to the ending
  circle. Normally, one of the two circles defining a gradient is
  nested within the other; in that case, points within the inner circle
  get the same color as the inner circle's edge, while points outside
- the outer circle get the same color as the outer circle's edge.
+ the outer circle get the same color as the outer circle's edge.}
+  @deftech{径向渐变（radial gradient）}与@racket[brush%]一起使用，用平滑的颜色过渡填充区域。颜色转换基于两个圆以及从开始圆到结束圆“变形”的圆序列。通常，定义渐变的两个圆中的一个嵌套在另一个圆中；在这种情况下，内圆内的点与内圆的边具有相同的颜色，而外圆外的点与外圆的边具有相同的颜色。
 
 @defconstructor[([x0 real?]
                  [y0 real?]
@@ -23,16 +24,18 @@ A @deftech{radial gradient} is used with a @racket[brush%] to fill
                  [r1 real?]
                  [stops (listof (list/c (real-in 0 1) (is-a?/c color%)))])]{
 
-Creates a radial gradient with the starting circle as the one with
+@;{Creates a radial gradient with the starting circle as the one with
 radius @racket[r0] centered at (@racket[x0], @racket[y0]) and the
 ending circle as the one with radius @racket[r1] centered at
 (@racket[x1], @racket[y1]). The @racket[stops] list assigns colors to
 circles, where @racket[0.0] corresponds to the starting circle,
 @racket[1.0] corresponds to the ending circle, and numbers in between
-correspond to circles in between.
-
-The order of elements within @racket[stops] and duplicate points are
-treated in the same way for as @racket[linear-gradient%].
+correspond to circles in between.}
+创建一个径向渐变，起始圆为半径@racket[r0]的中心点(@racket[x0], @racket[y0])，结束圆为半径@racket[r1]的中心点(@racket[x1], @racket[y1])。@racket[stops]列表将颜色指定给圆，其中@racket[0.0]对应于起始圆，@racket[1.0]对应于结束圆，中间的数字对应于中间的圆。
+  
+@;{The order of elements within @racket[stops] and duplicate points are
+treated in the same way for as @racket[linear-gradient%].}
+元素在@racket[stops]和重复点内的顺序与@racket[linear-gradient%]的处理方法相同。
 
 @examples[
   #:eval class-eval
@@ -82,15 +85,17 @@ treated in the same way for as @racket[linear-gradient%].
 @defmethod[(get-circles)
            (values real? real? real? real? real? real?)]{
 
-Returns the gradient's boundary circles as @racket[_x0], @racket[_y0],
-@racket[_r0], @racket[_x1], @racket[_y1], and @racket[_r1].
+@;{Returns the gradient's boundary circles as @racket[_x0], @racket[_y0],
+@racket[_r0], @racket[_x1], @racket[_y1], and @racket[_r1].}
+  返回渐变的边界圆为@racket[_x0]、@racket[_y0]、@racket[_r0]、@racket[_x1]、@racket[_y1]和@racket[_r1]。
 
 }
 
 @defmethod[(get-stops)
            (listof (list/c (real-in 0 1) (is-a?/c color%)))]{
 
-Returns the gradient's list of color stops.
+@;{Returns the gradient's list of color stops.}
+ 返回渐变的颜色停止点列表。 
 
 }}
 

@@ -3,12 +3,14 @@
 
 @definterface/title[color-database<%> ()]{
 
-The global @indexed-racket[the-color-database] object is an instance of
+@;{The global @indexed-racket[the-color-database] object is an instance of
  @racket[color-database<%>]. It maintains a database of standard RGB
  colors for a predefined set of named colors (such as ``black'' and
- ``light gray'').
+ ``light gray'').}
+  全局@indexed-racket[the-color-database]对象是@racket[color-database<%>]的实例。它为一组预定义的命名颜色（如“black（黑色）”和“light gray（浅灰色）”）维护一个标准RGB颜色数据库。
 
-The following colors are in the database:
+@;{The following colors are in the database:}
+  数据库中有以下颜色：
 
 @racketblock[
 @#,colorName[#"Orange Red" #"OrangeRed" 255 69 0]
@@ -194,9 +196,11 @@ The following colors are in the database:
 @#,colorName[#"Black" #"Black" 0 0 0]
 ]
 
-The names are not case-sensitive.
+@;{The names are not case-sensitive.}
+   名称不区分大小写。
 
-See also @racket[color%].
+@;{See also @racket[color%].}
+  也参见@racket[color%]。
 
 
 
@@ -204,15 +208,19 @@ See also @racket[color%].
 @defmethod[(find-color [color-name string?])
            (or/c (is-a?/c color%) #f)]{
 
-Finds a color by name (character case is ignored). If no color is
+@;{Finds a color by name (character case is ignored). If no color is
  found for the name, @racket[#f] is returned, otherwise the result
  is an immutable color object.}
+ 按名称查找颜色（忽略字符大小写）。如果找不到名称的颜色，则返回@racket[#f]，否则结果是不可变的颜色对象。
+ }
 
 
 @defmethod[(get-names) (listof string?)]{
 
-Returns an alphabetically sorted list of case-folded color names for which
+@;{Returns an alphabetically sorted list of case-folded color names for which
 @method[color-database<%> find-color] returns a @racket[color%] value.}
+返回按字母顺序排序的大小写折叠颜色名称列表，其中@method[color-database<%> find-color]返回一个@racket[color%]值。
+ }
 
 }
 
