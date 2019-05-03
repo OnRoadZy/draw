@@ -16,20 +16,20 @@
   (define PrintNote
     (make-splice
      (list
-      @p{Be sure to use the following methods to start/end drawing:}
+      @p{@;{Be sure to use the following methods to start/end drawing:}确保使用以下方法开始/结束绘图:}
       @itemize[@item{@method[dc<%> start-doc]}
                @item{@method[dc<%> start-page]}
                @item{@method[dc<%> end-page]}
                @item{@method[dc<%> end-doc]}]
-      @p{Attempts to use a drawing method outside of an active page raises an exception.})))
+      @p{@;{Attempts to use a drawing method outside of an active page raises an exception.}尝试在活动页之外使用绘图方法会引发异常。})))
 
   (define reference-doc '(lib "scribblings/reference/reference.scrbl"))
 
-  (define SeeMzParam @elem{(see @secref[#:doc reference-doc "parameters"])})
+  (define SeeMzParam @elem{@;{(see @secref[#:doc reference-doc "parameters"])}参见@secref[#:doc reference-doc "parameters"]})
   
   (define DrawSizeNote "")
 
-  (define MismatchExn @elem{an @racket[exn:fail:contract] exception is raised})
+  (define MismatchExn @elem{@;{an @racket[exn:fail:contract] exception is raised}引发@racket[exn:fail:contract]异常})
 
   (define (colorName name name2 r g b)
     (make-element #f
@@ -45,9 +45,9 @@
     (string->symbol (string-append "GRacket:" s)))
 
   (define (boxisfill which what)
-    @elem{The @|which| box is filled with @|what|.})
+    @elem{@;{The @|which| box is filled with @|what|.}@|which|框中用@|what|填充。})
   (define (boxisfillnull which what)
-    @elem{The @|which| box is filled with @|what|, unless @|which| is @racket[#f].})
+    @elem{@;{The @|which| box is filled with @|what|, unless @|which| is @racket[#f].}@|which|框中用@|what|填充，除非@|which|是@racket[#f]。})
 
   )
 
